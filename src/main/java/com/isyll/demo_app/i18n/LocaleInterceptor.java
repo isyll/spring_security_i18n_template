@@ -8,7 +8,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.isyll.demo_app.config.constants.AppConfig;
+import com.isyll.demo_app.constants.AppConfig;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;

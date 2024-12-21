@@ -16,7 +16,6 @@ public class I18nUtil {
 	public LocaleHolder localeHolder;
 
 	public String getMessage(String code, String... args) {
-		return messageSource.getMessage(code, args, localeHolder.getCurrentLocale());
+		return messageSource.getMessage(code, (Object[]) args, localeHolder.getCurrentLocale());
 	}
-
 }
