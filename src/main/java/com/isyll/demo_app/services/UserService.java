@@ -109,7 +109,9 @@ public class UserService {
             errors.put("phone", localizedMessage);
         }
 
-        throw new UniqueConstraintViolationException(errors);
+        if (!errors.isEmpty()) {
+            throw new UniqueConstraintViolationException(errors);
+        }
     }
 
     private void checkUniqueConstraintsViolation(User user, UpdateUserRequest dataRequest)
@@ -136,6 +138,8 @@ public class UserService {
             errors.put("phone", localizedMessage);
         }
 
-        throw new UniqueConstraintViolationException(errors);
+        if (!errors.isEmpty()) {
+            throw new UniqueConstraintViolationException(errors);
+        }
     }
 }

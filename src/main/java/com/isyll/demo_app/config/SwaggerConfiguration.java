@@ -14,20 +14,20 @@ import io.swagger.v3.oas.models.info.License;
 @Configuration
 public class SwaggerConfiguration {
 
-	@Bean
-	public OpenAPI customOpenAPI() {
-		return new OpenAPI()
-				.info(new Info()
-						.title(SwaggerConfig.title)
-						.description(SwaggerConfig.description)
-						.version(SwaggerConfig.SWAGGER_API_VERSION)
-						.termsOfService(SwaggerConfig.termsOfServiceUrl)
-						.contact(new Contact().name(SwaggerConfig.contact))
-						.license(new License()
-								.name(SwaggerConfig.license)
-								.url(SwaggerConfig.licenseUrl)))
-				.externalDocs(new ExternalDocumentation()
-						.description("Project Documentation")
-						.url("https://www.agrotrade-app.com/docs"));
-	}
+        @Bean
+        public OpenAPI customOpenAPI() {
+                return new OpenAPI()
+                                .info(new Info()
+                                                .title(SwaggerConfig.title)
+                                                .description(SwaggerConfig.description)
+                                                .version(SwaggerConfig.SWAGGER_API_VERSION)
+                                                .termsOfService(SwaggerConfig.termsOfServiceUrl)
+                                                .contact(new Contact().name(SwaggerConfig.contact))
+                                                .license(new License()
+                                                                .name(SwaggerConfig.license)
+                                                                .url(SwaggerConfig.licenseUrl)))
+                                .externalDocs(new ExternalDocumentation()
+                                                .description("Project Documentation")
+                                                .url("https://www.agrotrade-app.com/docs"));
+        }
 }

@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isyll.demo_app.constants.AppConfig;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/info")
+@Tag(name = "Info API", description = "API to get app informations.")
 public class AppInfoController {
 
     @GetMapping

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -58,6 +59,13 @@ public class GlobalExceptionHandler {
     public ApiResponse<Object> handleBadRequestException(BadRequestException ex) {
         String message = i18nUtil.getMessage("error.bad_request");
         return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ApiResponse<Object> handleBadCredentialsException(BadCredentialsException ex) {
+        String message = i18nUtil.getMessage("error.bad_credentials");
+        return ApiResponse.error(message, HttpStatus.UNAUTHORIZED);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -28,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(user.getId(), user.getUsername(),
                 user.getPassword(), user.getEmail(), user.getPhone(), user.getGender(),
                 user.getFirstName(), user.getLastName(), user.getCreatedAt(), user.getUpdatedAt(),
-                authorities);
+                user.isEmailVerified(), user.getCountryCode(), authorities);
     }
 
     private static Collection<String> getPermissions(Collection<Role> roles) {
@@ -69,6 +69,10 @@ public class UserDetailsImpl implements UserDetails {
 
     private String lastName;
 
+    private boolean emailVerified;
+
+    private String countryCode;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -88,6 +92,8 @@ public class UserDetailsImpl implements UserDetails {
             String lastName,
             Date createdAt,
             Date updatedAt,
+            boolean emailVerified,
+            String countryCode,
             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -98,6 +104,8 @@ public class UserDetailsImpl implements UserDetails {
         this.lastName = lastName;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.emailVerified = emailVerified;
+        this.countryCode = countryCode;
         this.authorities = authorities;
     }
 
