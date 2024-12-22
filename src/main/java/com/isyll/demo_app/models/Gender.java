@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.models;
+package com.isyll.demo_app.models;
 
 public enum Gender {
 

@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.security;
+package com.isyll.demo_app.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.isyll.agrotrade.security.jwt.AuthEntryPointJwt;
-import com.isyll.agrotrade.security.jwt.AuthTokenFilter;
-import com.isyll.agrotrade.services.UserDetailsServiceImpl;
+import com.isyll.demo_app.security.jwt.AuthEntryPointJwt;
+import com.isyll.demo_app.security.jwt.AuthTokenFilter;
+import com.isyll.demo_app.services.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 @Configuration

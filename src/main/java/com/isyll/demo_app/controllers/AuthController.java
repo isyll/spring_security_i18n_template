@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.controllers;
+package com.isyll.demo_app.controllers;
 
 import java.util.Map;
 
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isyll.agrotrade.dto.mapper.UserMapper;
-import com.isyll.agrotrade.dto.payload.request.SignUpRequest;
-import com.isyll.agrotrade.dto.payload.request.SigninRequest;
-import com.isyll.agrotrade.dto.payload.response.ApiResponse;
-import com.isyll.agrotrade.dto.payload.response.JwtResponse;
-import com.isyll.agrotrade.i18n.I18nUtil;
-import com.isyll.agrotrade.models.User;
-import com.isyll.agrotrade.services.UserService;
+import com.isyll.demo_app.dto.mapper.UserMapper;
+import com.isyll.demo_app.dto.payload.request.SignUpRequest;
+import com.isyll.demo_app.dto.payload.request.SigninRequest;
+import com.isyll.demo_app.dto.payload.response.ApiResponse;
+import com.isyll.demo_app.dto.payload.response.JwtResponse;
+import com.isyll.demo_app.i18n.I18nUtil;
+import com.isyll.demo_app.models.User;
+import com.isyll.demo_app.services.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

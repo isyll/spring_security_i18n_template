@@ -1,12 +1,12 @@
-package com.isyll.agrotrade.repository;
+package com.isyll.demo_app.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.isyll.agrotrade.models.EPermission;
-import com.isyll.agrotrade.models.Permission;
+import com.isyll.demo_app.models.EPermission;
+import com.isyll.demo_app.models.Permission;
 
 @Repository
 public interface PermissionRepository extends CrudRepository<Permission, Long> {

@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.services;
+package com.isyll.demo_app.services;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,19 +15,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.isyll.agrotrade.dto.payload.request.UpdateUserRequest;
-import com.isyll.agrotrade.exceptions.BadRequestException;
-import com.isyll.agrotrade.exceptions.InvalidTokenException;
-import com.isyll.agrotrade.exceptions.UniqueConstraintViolationException;
-import com.isyll.agrotrade.exceptions.UserNotFoundException;
-import com.isyll.agrotrade.i18n.I18nUtil;
-import com.isyll.agrotrade.models.AccountStatus;
-import com.isyll.agrotrade.models.ERole;
-import com.isyll.agrotrade.models.Role;
-import com.isyll.agrotrade.models.User;
-import com.isyll.agrotrade.repository.RoleRepository;
-import com.isyll.agrotrade.repository.UserRepository;
-import com.isyll.agrotrade.security.jwt.JwtUtils;
+import com.isyll.demo_app.dto.payload.request.UpdateUserRequest;
+import com.isyll.demo_app.exceptions.BadRequestException;
+import com.isyll.demo_app.exceptions.InvalidTokenException;
+import com.isyll.demo_app.exceptions.UniqueConstraintViolationException;
+import com.isyll.demo_app.exceptions.UserNotFoundException;
+import com.isyll.demo_app.i18n.I18nUtil;
+import com.isyll.demo_app.models.AccountStatus;
+import com.isyll.demo_app.models.ERole;
+import com.isyll.demo_app.models.Role;
+import com.isyll.demo_app.models.User;
+import com.isyll.demo_app.repository.RoleRepository;
+import com.isyll.demo_app.repository.UserRepository;
+import com.isyll.demo_app.security.jwt.JwtUtils;
 
 @Service
 public class UserService {

@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.security.jwt;
+package com.isyll.demo_app.security.jwt;
 
 import java.io.IOException;
 
@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.isyll.agrotrade.services.UserDetailsServiceImpl;
+import com.isyll.demo_app.services.UserDetailsServiceImpl;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

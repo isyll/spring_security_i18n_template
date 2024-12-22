@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.i18n;
+package com.isyll.demo_app.i18n;
 
 import java.util.Locale;
 

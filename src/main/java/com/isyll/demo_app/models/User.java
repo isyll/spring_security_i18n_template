@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.models;
+package com.isyll.demo_app.models;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -10,7 +10,7 @@ import org.hibernate.annotations.SQLRestriction;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.isyll.agrotrade.utils.DateTimeUtils;
+import com.isyll.demo_app.utils.DateTimeUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

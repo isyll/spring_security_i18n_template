@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.security.jwt;
+package com.isyll.demo_app.security.jwt;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.isyll.agrotrade.services.UserDetailsImpl;
+import com.isyll.demo_app.services.UserDetailsImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

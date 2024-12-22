@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.exceptions;
+package com.isyll.demo_app.exceptions;
 
 import java.util.Map;
 

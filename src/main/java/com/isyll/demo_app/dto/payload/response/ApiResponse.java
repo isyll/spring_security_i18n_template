@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.dto.payload.response;
+package com.isyll.demo_app.dto.payload.response;
 
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.isyll.agrotrade.utils.DateTimeUtils;
-import com.isyll.agrotrade.utils.RequestUtils;
+import com.isyll.demo_app.utils.DateTimeUtils;
+import com.isyll.demo_app.utils.RequestUtils;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

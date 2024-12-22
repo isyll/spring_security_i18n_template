@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.constants;
+package com.isyll.demo_app.constants;
 
 import java.util.Arrays;
 import java.util.List;

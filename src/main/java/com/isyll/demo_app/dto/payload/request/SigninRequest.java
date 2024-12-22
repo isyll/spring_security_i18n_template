@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.dto.payload.request;
+package com.isyll.demo_app.dto.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

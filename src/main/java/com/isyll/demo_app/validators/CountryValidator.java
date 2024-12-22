@@ -1,6 +1,6 @@
-package com.isyll.agrotrade.validators;
+package com.isyll.demo_app.validators;
 
-import com.isyll.agrotrade.utils.IsoUtils;
+import com.isyll.demo_app.utils.IsoUtils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

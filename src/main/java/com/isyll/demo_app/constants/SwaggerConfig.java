@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.constants;
+package com.isyll.demo_app.constants;
 
 public class SwaggerConfig {
 
@@ -10,6 +10,6 @@ public class SwaggerConfig {
 	public static final String contact = "isyll711@gmail.com";
 	public static final String license = "Proprietary";
 	public static final String licenseUrl = "https://www.agrotrade-app.com/license";
-	public static final String basePackage = "com.isyll.agrotrade";
+	public static final String basePackage = "com.isyll.demo_app";
 
 }

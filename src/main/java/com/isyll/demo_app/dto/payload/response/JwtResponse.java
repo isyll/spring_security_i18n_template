@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.dto.payload.response;
+package com.isyll.demo_app.dto.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

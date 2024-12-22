@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.security.jwt;
+package com.isyll.demo_app.security.jwt;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.isyll.agrotrade.i18n.I18nUtil;
-import com.isyll.agrotrade.utils.DateTimeUtils;
-import com.isyll.agrotrade.utils.RequestUtils;
+import com.isyll.demo_app.i18n.I18nUtil;
+import com.isyll.demo_app.utils.DateTimeUtils;
+import com.isyll.demo_app.utils.RequestUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.i18n;
+package com.isyll.demo_app.i18n;
 
 import java.util.Locale;
 
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.isyll.agrotrade.constants.AppConfig;
+import com.isyll.demo_app.constants.AppConfig;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;

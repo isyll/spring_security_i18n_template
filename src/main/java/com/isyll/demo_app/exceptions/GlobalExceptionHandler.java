@@ -1,4 +1,4 @@
-package com.isyll.agrotrade.exceptions;
+package com.isyll.demo_app.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.isyll.agrotrade.dto.payload.response.ApiResponse;
-import com.isyll.agrotrade.i18n.I18nUtil;
-import com.isyll.agrotrade.utils.StringUtils;
+import com.isyll.demo_app.dto.payload.response.ApiResponse;
+import com.isyll.demo_app.i18n.I18nUtil;
+import com.isyll.demo_app.utils.StringUtils;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
