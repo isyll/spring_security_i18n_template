@@ -1,4 +1,4 @@
-package com.isyll.demo_app.controllers;
+package com.isyll.agrotrade.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isyll.demo_app.dto.mapper.UserMapper;
-import com.isyll.demo_app.dto.payload.request.UpdateUserRequest;
-import com.isyll.demo_app.dto.payload.response.ApiResponse;
-import com.isyll.demo_app.i18n.I18nUtil;
-import com.isyll.demo_app.models.User;
-import com.isyll.demo_app.services.UserDetailsImpl;
-import com.isyll.demo_app.services.UserService;
+import com.isyll.agrotrade.dto.mapper.UserMapper;
+import com.isyll.agrotrade.dto.payload.request.UpdateUserRequest;
+import com.isyll.agrotrade.dto.payload.response.ApiResponse;
+import com.isyll.agrotrade.i18n.I18nUtil;
+import com.isyll.agrotrade.models.User;
+import com.isyll.agrotrade.services.UserDetailsImpl;
+import com.isyll.agrotrade.services.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -35,7 +35,7 @@ public class UserController {
     @Autowired
     I18nUtil i18nUtil;
 
-    @PutMapping("/updateAccount")
+    @PutMapping("/update-account")
     public ResponseEntity<ApiResponse<User>> updateMyAccount(@RequestBody final UpdateUserRequest dataRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -47,7 +47,7 @@ public class UserController {
         return ApiResponse.success(updatedUser).toReponseEntity();
     }
 
-    @DeleteMapping("/deleteAccount")
+    @DeleteMapping("/delete-account")
     public ResponseEntity<ApiResponse<Object>> deleteMyAccount() {
         userService.deleteMyAccount();
 
@@ -57,7 +57,7 @@ public class UserController {
         return ApiResponse.success(message).toReponseEntity();
     }
 
-    @GetMapping("/myInformations")
+    @GetMapping("/my-informations")
     public ResponseEntity<ApiResponse<User>> myInformations() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

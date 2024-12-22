@@ -1,4 +1,4 @@
-package com.isyll.demo_app.services;
+package com.isyll.agrotrade.services;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,21 +7,27 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.isyll.demo_app.dto.payload.request.UpdateUserRequest;
-import com.isyll.demo_app.exceptions.UniqueConstraintViolationException;
-import com.isyll.demo_app.exceptions.UserNotFoundException;
-import com.isyll.demo_app.i18n.I18nUtil;
-import com.isyll.demo_app.models.AccountStatus;
-import com.isyll.demo_app.models.ERole;
-import com.isyll.demo_app.models.Role;
-import com.isyll.demo_app.models.User;
-import com.isyll.demo_app.repository.RoleRepository;
-import com.isyll.demo_app.repository.UserRepository;
+import com.isyll.agrotrade.dto.payload.request.UpdateUserRequest;
+import com.isyll.agrotrade.exceptions.BadRequestException;
+import com.isyll.agrotrade.exceptions.InvalidTokenException;
+import com.isyll.agrotrade.exceptions.UniqueConstraintViolationException;
+import com.isyll.agrotrade.exceptions.UserNotFoundException;
+import com.isyll.agrotrade.i18n.I18nUtil;
+import com.isyll.agrotrade.models.AccountStatus;
+import com.isyll.agrotrade.models.ERole;
+import com.isyll.agrotrade.models.Role;
+import com.isyll.agrotrade.models.User;
+import com.isyll.agrotrade.repository.RoleRepository;
+import com.isyll.agrotrade.repository.UserRepository;
+import com.isyll.agrotrade.security.jwt.JwtUtils;
 
 @Service
 public class UserService {
@@ -36,7 +42,16 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
     I18nUtil i18nUtil;
+
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     public User createUser(User user) throws UniqueConstraintViolationException {
         checkUniqueConstraintsViolation(user);
@@ -85,6 +100,46 @@ public class UserService {
 
         user.setStatus(AccountStatus.DELETED);
         userRepository.save(user);
+    }
+
+    public String generateAccessToken(String username, String password) {
+        Authentication authentication = generateAuthentication(username, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return jwtUtils.generateAccessToken(authentication);
+    }
+
+    public String generateRefreshToken(String username, String password) {
+        Authentication authentication = generateAuthentication(username, password);
+        return jwtUtils.generateRefreshToken(authentication);
+    }
+
+    public String generateFromRefreshToken(String refreshToken) {
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            throw new BadRequestException();
+        }
+
+        if (!jwtUtils.validateJwtToken(refreshToken)) {
+            throw new InvalidTokenException();
+        }
+
+        String username = jwtUtils.getUserNameFromJwtToken(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return jwtUtils.generateAccessToken(authentication);
+    }
+
+    private Authentication generateAuthentication(String username, String password) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                username, password);
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return authentication;
     }
 
     private void checkUniqueConstraintsViolation(User user) throws UniqueConstraintViolationException {

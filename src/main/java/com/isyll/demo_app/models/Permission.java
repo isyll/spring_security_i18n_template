@@ -1,4 +1,4 @@
-package com.isyll.demo_app.models;
+package com.isyll.agrotrade.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

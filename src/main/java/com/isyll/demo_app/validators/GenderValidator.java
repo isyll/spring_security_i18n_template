@@ -1,8 +1,8 @@
-package com.isyll.demo_app.validators;
+package com.isyll.agrotrade.validators;
 
 import java.util.Arrays;
 
-import com.isyll.demo_app.models.Gender;
+import com.isyll.agrotrade.models.Gender;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

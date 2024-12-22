@@ -1,4 +1,4 @@
-package com.isyll.demo_app.utils;
+package com.isyll.agrotrade.utils;
 
 public class StringUtils {
 

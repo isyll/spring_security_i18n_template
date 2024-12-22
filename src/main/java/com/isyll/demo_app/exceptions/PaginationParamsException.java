@@ -1,4 +1,4 @@
-package com.isyll.demo_app.exceptions;
+package com.isyll.agrotrade.exceptions;
 
 public class PaginationParamsException extends RuntimeException {
 }

@@ -1,4 +1,4 @@
-package com.isyll.demo_app.models;
+package com.isyll.agrotrade.models;
 
 public enum AccountStatus {
 

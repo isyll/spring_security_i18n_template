@@ -1,7 +1,7 @@
-package com.isyll.demo_app.models;
+package com.isyll.agrotrade.models;
 
+import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLRestriction;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.isyll.agrotrade.utils.DateTimeUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -78,11 +79,11 @@ public class User {
 
     @JsonIgnore
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private ZonedDateTime createdAt;
 
     @JsonIgnore
     @Column(name = "updated_at", nullable = false)
-    private Date updatedAt;
+    private ZonedDateTime updatedAt;
 
     @JsonIgnore
     @Column(name = "email_verified", nullable = false)
@@ -94,12 +95,12 @@ public class User {
 
     @PrePersist
     public void onCreate() {
-        createdAt = updatedAt = new Date();
+        createdAt = updatedAt = DateTimeUtils.getCurrentTimestamp();
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = DateTimeUtils.getCurrentTimestamp();
     }
 
     @JsonGetter("email_verified")

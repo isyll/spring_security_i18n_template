@@ -1,4 +1,4 @@
-package com.isyll.demo_app.repository;
+package com.isyll.agrotrade.repository;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

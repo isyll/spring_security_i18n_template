@@ -1,40 +1,46 @@
-package com.isyll.demo_app.security.jwt;
+package com.isyll.agrotrade.security.jwt;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.isyll.agrotrade.i18n.I18nUtil;
+import com.isyll.agrotrade.utils.DateTimeUtils;
+import com.isyll.agrotrade.utils.RequestUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
+    @Autowired
+    I18nUtil i18nUtil;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException)
             throws IOException {
-        logger.error("Unauthorized error: {}", authException.getMessage());
+        log.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
-        body.put("path", request.getServletPath());
+        Map<String, Object> body = new HashMap<>();
+        body.put("status_code", HttpServletResponse.SC_UNAUTHORIZED);
+        body.put("status", false);
+        body.put("message", i18nUtil.getMessage("error.unauthorized"));
+        body.put("timestamp", DateTimeUtils.getCurrentTimestamp().toString());
+        body.put("path", RequestUtils.getCurrentPath());
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);

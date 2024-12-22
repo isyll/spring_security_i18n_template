@@ -1,4 +1,4 @@
-package com.isyll.demo_app.i18n;
+package com.isyll.agrotrade.i18n;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

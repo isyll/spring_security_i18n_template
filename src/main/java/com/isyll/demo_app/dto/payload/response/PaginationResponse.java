@@ -1,4 +1,4 @@
-package com.isyll.demo_app.dto.payload.response;
+package com.isyll.agrotrade.dto.payload.response;
 
 import java.util.stream.Stream;
 

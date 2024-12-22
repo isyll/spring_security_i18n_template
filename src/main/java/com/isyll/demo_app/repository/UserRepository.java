@@ -1,4 +1,4 @@
-package com.isyll.demo_app.repository;
+package com.isyll.agrotrade.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.isyll.demo_app.models.User;
+import com.isyll.agrotrade.models.User;
 
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long>, CrudRepository<User, Long> {

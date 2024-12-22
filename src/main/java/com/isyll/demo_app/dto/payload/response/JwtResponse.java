@@ -1,16 +1,20 @@
-package com.isyll.demo_app.dto.payload.response;
+package com.isyll.agrotrade.dto.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtResponse {
 
-    private String type = "JWT";
+    @JsonProperty("access_token")
+    private String accessToken;
 
-    private String token;
-
-    public JwtResponse(String token) {
-        this.token = token;
-    }
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
 }

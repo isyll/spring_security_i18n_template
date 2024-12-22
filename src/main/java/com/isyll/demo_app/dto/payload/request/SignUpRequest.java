@@ -1,12 +1,12 @@
-package com.isyll.demo_app.dto.payload.request;
+package com.isyll.agrotrade.dto.payload.request;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.isyll.demo_app.models.Gender;
-import com.isyll.demo_app.validators.CountryValidation;
-import com.isyll.demo_app.validators.E164PhoneValidation;
-import com.isyll.demo_app.validators.GenderValidation;
+import com.isyll.agrotrade.models.Gender;
+import com.isyll.agrotrade.validators.CountryValidation;
+import com.isyll.agrotrade.validators.E164PhoneValidation;
+import com.isyll.agrotrade.validators.GenderValidation;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

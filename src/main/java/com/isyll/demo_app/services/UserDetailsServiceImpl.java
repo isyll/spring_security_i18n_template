@@ -1,4 +1,4 @@
-package com.isyll.demo_app.services;
+package com.isyll.agrotrade.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isyll.demo_app.models.User;
-import com.isyll.demo_app.repository.UserRepository;
+import com.isyll.agrotrade.models.User;
+import com.isyll.agrotrade.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

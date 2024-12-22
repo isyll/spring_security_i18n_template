@@ -1,4 +1,4 @@
-package com.isyll.demo_app.models;
+package com.isyll.agrotrade.models;
 
 import java.util.HashSet;
 import java.util.Set;

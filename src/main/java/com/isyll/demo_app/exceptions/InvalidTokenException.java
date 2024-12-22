@@ -3,9 +3,9 @@ package com.isyll.agrotrade.exceptions;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class BadRequestException extends RuntimeException {
+public class InvalidTokenException extends RuntimeException {
 
-    public BadRequestException(String message) {
+    public InvalidTokenException(String message) {
         super(message);
     }
 }

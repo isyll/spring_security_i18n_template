@@ -1,41 +1,45 @@
-package com.isyll.demo_app.security.jwt;
+package com.isyll.agrotrade.security.jwt;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
 import javax.crypto.SecretKey;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.isyll.demo_app.services.UserDetailsImpl;
+import com.isyll.agrotrade.services.UserDetailsImpl;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class JwtUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
-    @Value("${app.security.jwtSecret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.security.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    @Value("${jwt.refreshExpirationMs}")
+    private long refreshExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    @Value("${jwt.jwtExpirationMs}")
+    private long jwtExpirationMs;
+
+    public String generateAccessToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return Jwts.builder()
+                .claim("type", "access")
                 .claims()
                 .add("id", userPrincipal.getId())
                 .add("email", userPrincipal.getEmail())
@@ -58,12 +62,23 @@ public class JwtUtils {
                 .compact();
     }
 
+    public String generateRefreshToken(Authentication authentication) {
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        return Jwts.builder()
+                .claim("type", "refresh")
+                .subject(userPrincipal.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date((new Date()).getTime() + refreshExpirationMs))
+                .signWith(key(), Jwts.SIG.HS512)
+                .compact();
+    }
+
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload().getSubject();
+        return payload(token).getSubject();
     }
 
     public Long getIdFromJwtToken(String token) {
-        return Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload().get("id", Long.class);
+        return payload(token).get("id", Long.class);
     }
 
     public boolean validateJwtToken(String token) {
@@ -71,19 +86,32 @@ public class JwtUtils {
             Jwts.parser().verifyWith(key()).build().parse(token);
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
+            log.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
+            log.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
+            log.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
+            log.error("JWT claims string is empty: {}", e.getMessage());
         }
 
         return false;
     }
 
+    public boolean isAccessToken(String token) {
+        Claims claims = payload(token);
+        return "access".equals(claims.get("type", String.class));
+    }
+
     private SecretKey key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
+        try {
+            return Keys.hmacShaKeyFor(jwtSecret.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new InternalAuthenticationServiceException(jwtSecret);
+        }
+    }
+
+    private Claims payload(String token) {
+        return Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload();
     }
 }

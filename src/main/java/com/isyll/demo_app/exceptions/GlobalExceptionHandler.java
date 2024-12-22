@@ -1,4 +1,4 @@
-package com.isyll.demo_app.exceptions;
+package com.isyll.agrotrade.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,14 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.isyll.demo_app.dto.payload.response.ApiResponse;
-import com.isyll.demo_app.i18n.I18nUtil;
-import com.isyll.demo_app.utils.StringUtils;
+import com.isyll.agrotrade.dto.payload.response.ApiResponse;
+import com.isyll.agrotrade.i18n.I18nUtil;
+import com.isyll.agrotrade.utils.StringUtils;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -57,7 +59,34 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
     public ApiResponse<Object> handleBadRequestException(BadRequestException ex) {
-        String message = i18nUtil.getMessage("error.bad_request");
+        String message = ex.getMessage();
+        if (message == null) {
+            message = i18nUtil.getMessage("error.bad_request");
+        }
+        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ApiResponse<Object> handleHttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException ex) {
+        String message = i18nUtil.getMessage("error.method_not_supported");
+        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ApiResponse<Object> handleNoResourceFoundException(
+            NoResourceFoundException ex) {
+        String message = i18nUtil.getMessage("error.no_esource_found");
+        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidTokenException.class)
+    public ApiResponse<Object> handleInvalidTokenException(
+            InvalidTokenException ex) {
+        String message = i18nUtil.getMessage("error.invalid_token");
         return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
     }
 

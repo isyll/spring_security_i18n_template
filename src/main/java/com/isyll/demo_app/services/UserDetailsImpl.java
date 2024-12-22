@@ -1,19 +1,19 @@
-package com.isyll.demo_app.services;
+package com.isyll.agrotrade.services;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.isyll.demo_app.models.AccountStatus;
-import com.isyll.demo_app.models.Gender;
-import com.isyll.demo_app.models.Permission;
-import com.isyll.demo_app.models.Role;
-import com.isyll.demo_app.models.User;
+import com.isyll.agrotrade.models.AccountStatus;
+import com.isyll.agrotrade.models.Gender;
+import com.isyll.agrotrade.models.Permission;
+import com.isyll.agrotrade.models.Role;
+import com.isyll.agrotrade.models.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -73,9 +73,9 @@ public class UserDetailsImpl implements UserDetails {
 
     private String countryCode;
 
-    private Date createdAt;
+    private ZonedDateTime createdAt;
 
-    private Date updatedAt;
+    private ZonedDateTime updatedAt;
 
     private AccountStatus status = AccountStatus.ACTIVE;
 
@@ -90,8 +90,8 @@ public class UserDetailsImpl implements UserDetails {
             Gender gender,
             String firstName,
             String lastName,
-            Date createdAt,
-            Date updatedAt,
+            ZonedDateTime createdAt,
+            ZonedDateTime updatedAt,
             boolean emailVerified,
             String countryCode,
             Collection<? extends GrantedAuthority> authorities) {

@@ -1,4 +1,4 @@
-package com.isyll.demo_app.validators;
+package com.isyll.agrotrade.validators;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;

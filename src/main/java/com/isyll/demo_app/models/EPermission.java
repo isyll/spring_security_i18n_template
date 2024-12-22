@@ -1,6 +1,6 @@
-package com.isyll.demo_app.models;
+package com.isyll.agrotrade.models;
 
 public enum EPermission {
 
-    VIEW_ALL
+    VIEW_USER_DATA
 }

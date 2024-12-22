@@ -1,10 +1,11 @@
-package com.isyll.demo_app.utils;
+package com.isyll.agrotrade.utils;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 public class DateTimeUtils {
 
-	public static LocalDateTime getCurrentTimestamp() {
-		return LocalDateTime.now();
+	public static ZonedDateTime getCurrentTimestamp() {
+		return ZonedDateTime.now(ZoneOffset.UTC);
 	}
 }

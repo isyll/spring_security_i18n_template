@@ -1,4 +1,4 @@
-package com.isyll.demo_app.exceptions;
+package com.isyll.agrotrade.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

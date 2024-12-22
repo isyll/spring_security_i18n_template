@@ -1,18 +1,16 @@
-package com.isyll.demo_app.dto.payload.response;
+package com.isyll.agrotrade.dto.payload.response;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.isyll.demo_app.utils.DateTimeUtils;
+import com.isyll.agrotrade.utils.DateTimeUtils;
+import com.isyll.agrotrade.utils.RequestUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -61,7 +59,7 @@ public class ApiResponse<T> {
 	@JsonProperty("status_code")
 	private int statusCode;
 
-	private LocalDateTime timestamp;
+	private ZonedDateTime timestamp;
 
 	private String path;
 
@@ -72,15 +70,10 @@ public class ApiResponse<T> {
 		this.statusCode = httpStatus.value();
 		this.timestamp = DateTimeUtils.getCurrentTimestamp();
 		this.errors = errors;
-
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.currentRequestAttributes())
-				.getRequest();
-		this.path = request.getRequestURI();
+		this.path = RequestUtils.getCurrentPath();
 	}
 
 	public ResponseEntity<ApiResponse<T>> toReponseEntity() {
 		return ResponseEntity.status(this.statusCode).body(this);
-
 	}
 }
