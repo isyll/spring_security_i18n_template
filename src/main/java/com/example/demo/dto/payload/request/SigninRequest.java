@@ -1,4 +1,4 @@
-package com.fekkima.fekkima_app.dto.payload.request;
+package com.example.demo.dto.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

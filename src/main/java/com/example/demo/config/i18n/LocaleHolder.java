@@ -1,4 +1,4 @@
-package com.fekkima.fekkima_app.config.i18n;
+package com.example.demo.config.i18n;
 
 import java.util.Locale;
 

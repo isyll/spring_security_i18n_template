@@ -1,13 +1,16 @@
 package com.example.demo.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.config.constants.AppConfig;
+import com.example.demo.dto.AppInfo;
+import com.example.demo.dto.payload.response.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -17,12 +20,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AppInfoController {
 
     @GetMapping
-    public Map<String, Object> getAppInfo() {
-        Map<String, Object> appInfo = new HashMap<>();
-        appInfo.put("name", AppConfig.APP_NAME);
-        appInfo.put("version", AppConfig.APP_VERSION);
-        appInfo.put("description", AppConfig.APP_DESCRIPTION);
-        appInfo.put("supported_locales", AppConfig.SUPPORTED_LOCALES);
-        return appInfo;
+    public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
+        List<String> locales = new ArrayList<>();
+        AppConfig.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
+        AppInfo appInfo = new AppInfo(AppConfig.APP_NAME, AppConfig.APP_VERSION,
+                AppConfig.APP_DESCRIPTION, locales);
+        return ApiResponse.success(appInfo).toReponseEntity();
     }
 }
