@@ -77,6 +77,10 @@ public class User {
     @JsonProperty("last_name")
     private String lastName;
 
+    @JsonProperty("date_of_birth")
+    @Column(nullable = false)
+    private ZonedDateTime dateOfBirth;
+
     @JsonIgnore
     @Column(name = "created_at", nullable = false)
     private ZonedDateTime createdAt;

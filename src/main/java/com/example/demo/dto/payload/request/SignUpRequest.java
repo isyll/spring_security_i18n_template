@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.example.demo.models.Gender;
 import com.example.demo.validators.CountryValidation;
+import com.example.demo.validators.DateValidation;
 import com.example.demo.validators.E164PhoneValidation;
 import com.example.demo.validators.GenderValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -54,6 +55,12 @@ public class SignUpRequest {
     @JsonProperty("country_code")
     @CountryValidation
     private String countryCode;
+
+    @NotNull(message = "{validation.user.birthdate_is_mandatory}")
+    @NotBlank(message = "{validation.user.birthdate_is_mandatory}")
+    @DateValidation(message = "{validation.user.birthdate_is_invalid}")
+    @JsonProperty("date_of_birth")
+    private String dateOfBirth;
 
     @NotNull(message = "{validation.user.gender_is_mandatory}")
     @GenderValidation
