@@ -26,7 +26,7 @@ public class CreateRootUser {
     @Autowired
     private RoleRepository roleRepository;
 
-    private final String rootEmail = "admin@yaatal-school.com";
+    private final String rootEmail = "admin@example.com";
 
     @PostConstruct
     public void createRootUser() {

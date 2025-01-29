@@ -31,13 +31,13 @@ public class AuthInitializer {
         log.info("Initializing roles and permissions...");
         try {
             loadPermissions();
-            loadRoles();
+            loadSuperUserRole();
         } catch (Exception e) {
             log.error("Error initializing roles and permissions", e);
         }
     }
 
-    private void loadRoles() {
+    private void loadSuperUserRole() {
         String roleName = "SUPERUSER";
         if (roleRepository.existsByName(roleName))
             return;
