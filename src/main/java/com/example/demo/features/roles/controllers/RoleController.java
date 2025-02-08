@@ -12,6 +12,7 @@ import com.example.demo.core.payload.ApiResponse;
 import com.example.demo.features.roles.models.Role;
 import com.example.demo.features.roles.services.RoleService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Role API", description = "API to manage roles.")
@@ -22,6 +23,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @Operation(summary = "Get a role by id", description = "This endpoint retrieves a role by its unique identifier.")
     @GetMapping("/{id:\\d+}")
     @Secured({ "VIEW_ROLES" })
     public ResponseEntity<ApiResponse<Role>> getRole(@PathVariable Long id) {

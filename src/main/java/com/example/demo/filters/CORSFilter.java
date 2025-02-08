@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.demo.core.constants.AppConfig;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,11 @@ public class CORSFilter extends OncePerRequestFilter {
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                         FilterChain filterChain) throws ServletException, IOException {
+                response.setHeader("Server", AppConfig.APP_NAME);
+                response.setHeader("X-App-Name", AppConfig.APP_NAME);
+                response.setHeader("X-App-Version", AppConfig.APP_VERSION);
+                response.setHeader("X-App-Developer", AppConfig.AUTHOR);
+
                 response.addHeader("Access-Control-Allow-Origin", "*");
                 response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
                 response.addHeader("Access-Control-Allow-Headers",

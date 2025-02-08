@@ -12,6 +12,7 @@ import com.example.demo.core.constants.AppConfig;
 import com.example.demo.core.payload.ApiResponse;
 import com.example.demo.features.app_info.dto.AppInfo;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Info API", description = "API to get app informations.")
 public class AppInfoController {
 
+    @Operation(summary = "Get app informations", description = "This endpoint provides application information.")
     @GetMapping
     public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
         List<String> locales = new ArrayList<>();

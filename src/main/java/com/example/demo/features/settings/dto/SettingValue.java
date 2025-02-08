@@ -1,6 +1,8 @@
 package com.example.demo.features.settings.dto;
 
-import com.example.demo.features.settings.models.SettingValueType;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.example.demo.features.settings.models.SettingType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,5 +13,6 @@ public class SettingValue {
 
     private String key;
     private Object value;
-    private SettingValueType valueType;
+    @JsonProperty(access = Access.READ_ONLY)
+    private SettingType valueType;
 }

@@ -1,14 +1,20 @@
-package com.example.demo.features.auth.repository;
+package com.example.demo.features.users.repository;
+
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.features.auth.models.User;
+import com.example.demo.features.users.models.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+
+        Optional<User> findById(Long id);
+
+        <S extends User> S save(S entity);
 
         User findByEmail(String email);
 

@@ -11,4 +11,12 @@ public class StringUtils {
                 .replaceAll("([a-z])([A-Z]+)", "$1_$2")
                 .toLowerCase();
     }
+
+    public static int tryParseInt(String str, int defaultValue) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 }

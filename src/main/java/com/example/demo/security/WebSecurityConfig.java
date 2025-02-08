@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.demo.features.auth.services.UserDetailsServiceImpl;
+import com.example.demo.features.users.services.UserDetailsServiceImpl;
 import com.example.demo.security.jwt.AuthEntryPointJwt;
 import com.example.demo.security.jwt.AuthTokenFilter;
 
@@ -32,7 +32,7 @@ public class WebSecurityConfig {
     @Bean
     static RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl hierarchy = RoleHierarchyImpl.fromHierarchy(
-                "ROLE_ADMIN > ROLE_TEACHER\nROLE_TEACHER > ROLE_STUDENT");
+                "ROLE_SUPERUSER > ROLE_ADMIN\nROLE_ADMIN > ROLE_USER");
         return hierarchy;
     }
 

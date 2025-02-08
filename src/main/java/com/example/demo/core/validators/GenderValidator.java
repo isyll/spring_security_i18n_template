@@ -2,7 +2,7 @@ package com.example.demo.core.validators;
 
 import java.util.Arrays;
 
-import com.example.demo.features.auth.models.Gender;
+import com.example.demo.features.users.models.Gender;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

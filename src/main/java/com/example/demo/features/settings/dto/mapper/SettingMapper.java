@@ -12,6 +12,7 @@ public interface SettingMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "description", ignore = true)
+    @Mapping(target = "name", ignore = true)
     void updateSettingFromSettingValue(
             SettingValue settingValue, @MappingTarget Setting setting);
 

@@ -10,33 +10,33 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.core.exceptions.BadRefreshTokenException;
 import com.example.demo.core.exceptions.BadRequestException;
-import com.example.demo.core.exceptions.InvalidTokenException;
 import com.example.demo.core.exceptions.ResourceNotFoundException;
-import com.example.demo.features.auth.models.AccountStatus;
-import com.example.demo.features.auth.models.User;
-import com.example.demo.features.auth.repository.UserRepository;
+import com.example.demo.features.users.models.AccountStatus;
+import com.example.demo.features.users.models.User;
+import com.example.demo.features.users.repository.UserRepository;
+import com.example.demo.features.users.services.UserDetailsImpl;
+import com.example.demo.features.users.services.UserDetailsServiceImpl;
 import com.example.demo.i18n.I18nUtil;
 import com.example.demo.security.jwt.JwtUtils;
 
 @Service
-public class UserService {
+public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    I18nUtil i18nUtil;
+    private I18nUtil i18nUtil;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     public User findUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -72,15 +72,18 @@ public class UserService {
 
     public String generateFromRefreshToken(String refreshToken) {
         if (refreshToken == null || refreshToken.isEmpty()) {
-            throw new BadRequestException();
+            String message = i18nUtil.getMessage("error.refresh_token_missing");
+            throw new BadRequestException(message);
         }
 
         if (!jwtUtils.validateJwtToken(refreshToken)) {
-            throw new InvalidTokenException();
+            String message = i18nUtil.getMessage("error.invalid_token");
+            throw new BadRequestException(message);
         }
 
         if (!jwtUtils.checkTokenType(refreshToken, "refresh")) {
-            throw new BadRefreshTokenException();
+            String message = i18nUtil.getMessage("error.bad_refresh_token");
+            throw new BadRequestException(message);
         }
 
         String username = jwtUtils.getUserNameFromJwtToken(refreshToken);

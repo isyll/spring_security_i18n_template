@@ -1,6 +1,6 @@
 package com.example.demo.features.settings.models;
 
-public enum SettingValueType {
+public enum SettingType {
     Integer,
     Double,
     Boolean,

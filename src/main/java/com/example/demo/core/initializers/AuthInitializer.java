@@ -1,12 +1,10 @@
-package com.example.demo.core.internal;
+package com.example.demo.core.initializers;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.core.utils.IterableUtils;
 import com.example.demo.features.roles.models.EPermission;
 import com.example.demo.features.roles.models.Permission;
 import com.example.demo.features.roles.models.Role;
@@ -28,25 +26,28 @@ public class AuthInitializer {
 
     @PostConstruct
     public void init() {
-        log.info("Initializing roles and permissions...");
         try {
             loadPermissions();
-            loadSuperUserRole();
+            loadRoles();
+            log.info("Roles and permissions initialized successfully");
         } catch (Exception e) {
             log.error("Error initializing roles and permissions", e);
         }
     }
 
-    private void loadSuperUserRole() {
-        String roleName = "SUPERUSER";
-        if (roleRepository.existsByName(roleName))
-            return;
-
-        Role role = new Role();
-        Set<Permission> permissions = new HashSet<>();
-        IterableUtils.arrayToSet(EPermission.values()).forEach((name) -> {
-            permissions.add(permissionRepository.findByName(name));
-        });
+    private void loadRoles() {
+        String roleName = "ROLE_SUPERUSER";
+        Role role = roleRepository.findByName(roleName);
+        if (role == null) {
+            role = new Role();
+        }
+        Set<Permission> permissions = role.getPermissions();
+        for (EPermission name : EPermission.values()) {
+            Permission permission = permissionRepository.findByName(name);
+            if (permissions.contains(permission))
+                continue;
+            permissions.add(permission);
+        }
         role.setName(roleName);
         role.setPermissions(permissions);
         role.setDescription("Super user");

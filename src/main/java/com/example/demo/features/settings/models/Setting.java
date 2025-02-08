@@ -37,25 +37,52 @@ public class Setting {
     @JsonProperty(value = "value_type")
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
-    private SettingValueType valueType;
+    private SettingType valueType;
 
     @Transient
     private String description;
 
+    @Transient
+    private String name;
+
     @JsonProperty("value")
     public Object getTypedValue() {
         switch (valueType) {
-            case SettingValueType.Integer:
+            case SettingType.Integer:
                 return Integer.parseInt(value);
-            case SettingValueType.Double:
+            case SettingType.Double:
                 return Double.parseDouble(value);
-            case SettingValueType.Boolean:
+            case SettingType.Boolean:
                 return Boolean.parseBoolean(value);
-            case SettingValueType.String:
+            case SettingType.String:
                 return value;
             default:
                 throw new IllegalArgumentException("Unsupported value type: " + valueType);
         }
+    }
+
+    public boolean checkType() {
+        try {
+            switch (valueType) {
+                case Integer:
+                    Integer.parseInt(value);
+                    break;
+                case Double:
+                    Double.parseDouble(value);
+                    break;
+                case Boolean:
+                    Boolean.parseBoolean(value);
+                    break;
+                case String:
+                    // No need to check, any value is valid for String
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unsupported value type: " + valueType);
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     public void setValue(Object obj) {
@@ -65,16 +92,16 @@ public class Setting {
 
         if (obj instanceof Integer) {
             this.value = obj.toString();
-            this.valueType = SettingValueType.Integer;
+            this.valueType = SettingType.Integer;
         } else if (obj instanceof Double) {
             this.value = obj.toString();
-            this.valueType = SettingValueType.Double;
+            this.valueType = SettingType.Double;
         } else if (obj instanceof Boolean) {
             this.value = obj.toString();
-            this.valueType = SettingValueType.Boolean;
+            this.valueType = SettingType.Boolean;
         } else if (obj instanceof String) {
             this.value = (String) obj;
-            this.valueType = SettingValueType.String;
+            this.valueType = SettingType.String;
         } else {
             throw new IllegalArgumentException("Unsupported value type: " + obj.getClass().getSimpleName());
         }

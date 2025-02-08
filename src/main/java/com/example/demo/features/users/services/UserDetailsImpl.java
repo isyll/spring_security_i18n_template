@@ -1,4 +1,4 @@
-package com.example.demo.features.auth.services;
+package com.example.demo.features.users.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,9 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.features.auth.models.User;
 import com.example.demo.features.roles.models.Permission;
 import com.example.demo.features.roles.models.Role;
+import com.example.demo.features.users.models.User;
 
 import lombok.Getter;
 import lombok.Setter;

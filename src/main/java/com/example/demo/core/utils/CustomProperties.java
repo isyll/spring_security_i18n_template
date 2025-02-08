@@ -5,16 +5,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Configuration
 @ConfigurationProperties
 @PropertySource("classpath:custom.properties")
 public class CustomProperties {
 
-    @Value("{pagination.limit}")
-    private String paginationLimit;
+    @Value("${pagination.limit}")
+    private int paginationLimit;
 
     @Value("${jwt.secret}")
     private String jwtSecret;

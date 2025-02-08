@@ -1,4 +1,4 @@
-package com.example.demo.features.auth.models;
+package com.example.demo.features.users.models;
 
 public enum AccountStatus {
 

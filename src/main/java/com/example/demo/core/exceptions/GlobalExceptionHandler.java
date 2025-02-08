@@ -1,4 +1,4 @@
-package com.example.demo.core.config;
+package com.example.demo.core.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,13 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.example.demo.core.exceptions.BadRefreshTokenException;
-import com.example.demo.core.exceptions.BadRequestException;
-import com.example.demo.core.exceptions.InactiveUserActionException;
-import com.example.demo.core.exceptions.InvalidTokenException;
-import com.example.demo.core.exceptions.PaginationParamsException;
-import com.example.demo.core.exceptions.ResourceNotFoundException;
-import com.example.demo.core.exceptions.UniqueConstraintViolationException;
 import com.example.demo.core.payload.ApiResponse;
 import com.example.demo.core.utils.StringUtils;
 import com.example.demo.i18n.I18nUtil;
@@ -31,7 +24,7 @@ import com.example.demo.i18n.I18nUtil;
 public class GlobalExceptionHandler {
 
     @Autowired
-    I18nUtil i18nUtil;
+    private I18nUtil i18nUtil;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -71,14 +64,6 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(PaginationParamsException.class)
-    public ApiResponse<Object> handlePaginationParamsException(PaginationParamsException ex) {
-        String message = i18nUtil.getMessage("pagination.parameters_are_invalid");
-        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
-
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ApiResponse<Object> handleMissingServletRequestParameterException(
             MissingServletRequestParameterException ex) {
@@ -98,31 +83,15 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ApiResponse<Object> handleHttpRequestMethodNotSupportedException(
-            HttpRequestMethodNotSupportedException ex) {
+    public ApiResponse<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
         String message = i18nUtil.getMessage("error.method_not_supported");
         return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoResourceFoundException.class)
-    public ApiResponse<Object> handleNoResourceFoundException(
-            NoResourceFoundException ex) {
-        String message = i18nUtil.getMessage("error.no_esource_found");
-        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidTokenException.class)
-    public ApiResponse<Object> handleInvalidTokenException(InvalidTokenException ex) {
-        String message = i18nUtil.getMessage("error.invalid_token");
-        return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadRefreshTokenException.class)
-    public ApiResponse<Object> handleBadRefreshTokenException(BadRefreshTokenException ex) {
-        String message = i18nUtil.getMessage("error.bad_refresh_token");
+    public ApiResponse<Object> handleNoResourceFoundException(NoResourceFoundException ex) {
+        String message = i18nUtil.getMessage("error.no_resource_found");
         return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
     }
 

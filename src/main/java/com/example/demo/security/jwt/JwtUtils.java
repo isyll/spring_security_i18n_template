@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.core.utils.CustomProperties;
-import com.example.demo.features.auth.services.UserDetailsImpl;
+import com.example.demo.features.users.services.UserDetailsImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
