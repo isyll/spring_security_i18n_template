@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.core.utils.CustomProperties;
-import com.example.demo.features.users.services.UserDetailsImpl;
+import com.example.demo.services.UserDetailsImpl;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -46,7 +46,6 @@ public class JwtUtils {
                 .claim("first_name", userPrincipal.getFirstName())
                 .claim("last_name", userPrincipal.getLastName())
                 .claim("phone", userPrincipal.getPhone())
-                .claim("permissions", roles)
                 .subject(userPrincipal.getUsername())
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + customProperties.getJwtExpirationMs()))
