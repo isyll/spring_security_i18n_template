@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 
 public class DateTimeUtils {
 
-	public static ZonedDateTime getCurrentTimestamp() {
-		return ZonedDateTime.now(ZoneOffset.UTC);
-	}
+  public static ZonedDateTime getCurrentTimestamp() {
+    return ZonedDateTime.now(ZoneOffset.UTC);
+  }
 }

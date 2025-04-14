@@ -1,5 +1,6 @@
 package com.example.demo.i18n;
 
+import com.example.demo.core.constants.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
-import com.example.demo.core.constants.AppConfig;
 
 @Configuration
 public class I18nConfig implements WebMvcConfigurer {
