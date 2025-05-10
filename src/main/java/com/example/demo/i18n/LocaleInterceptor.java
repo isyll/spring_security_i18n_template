@@ -15,34 +15,36 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 @Component
 public class LocaleInterceptor implements HandlerInterceptor {
 
-	@Resource(name = "localeHolder")
-	LocaleHolder localeHolder;
+  @Resource(name = "localeHolder")
+  LocaleHolder localeHolder;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws ServletException {
-		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+      throws ServletException {
+    LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 
-		if (localeResolver == null) {
-			throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
-		}
+    if (localeResolver == null) {
+      throw new IllegalStateException(
+          "No LocaleResolver found: not in a DispatcherServlet request?");
+    }
 
-		if (localeResolver instanceof AcceptHeaderLocaleResolver headerLocaleResolver) {
-			localeHolder.setCurrentLocale(determineLocale(headerLocaleResolver, request));
-		} else {
-			throw new IllegalStateException("Resolver should be of AcceptHeaderLocaleResolver type");
-		}
+    if (localeResolver instanceof AcceptHeaderLocaleResolver headerLocaleResolver) {
+      localeHolder.setCurrentLocale(determineLocale(headerLocaleResolver, request));
+    } else {
+      throw new IllegalStateException("Resolver should be of AcceptHeaderLocaleResolver type");
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	Locale determineLocale(AcceptHeaderLocaleResolver headerLocaleResolver, HttpServletRequest request) {
-		Locale locale = headerLocaleResolver.resolveLocale(request);
+  Locale determineLocale(
+      AcceptHeaderLocaleResolver headerLocaleResolver, HttpServletRequest request) {
+    Locale locale = headerLocaleResolver.resolveLocale(request);
 
-		if (AppConfig.SUPPORTED_LOCALES.contains(locale)) {
-			return locale;
-		}
+    if (AppConfig.SUPPORTED_LOCALES.contains(locale)) {
+      return locale;
+    }
 
-		return AppConfig.DEFAULT_LOCALE;
-	}
+    return AppConfig.DEFAULT_LOCALE;
+  }
 }

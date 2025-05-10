@@ -17,42 +17,42 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class I18nConfig implements WebMvcConfigurer {
 
-	@Autowired
-	LocaleInterceptor localeInterceptor;
+  @Autowired LocaleInterceptor localeInterceptor;
 
-	@Override
-	public void addInterceptors(InterceptorRegistry interceptorRegistry) {
-		interceptorRegistry.addInterceptor(localeInterceptor);
-	}
+  @Override
+  public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+    interceptorRegistry.addInterceptor(localeInterceptor);
+  }
 
-	@Bean
-	@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
-	LocaleHolder localeHolder() {
-		return new LocaleHolder();
-	}
+  @Bean
+  @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
+  LocaleHolder localeHolder() {
+    return new LocaleHolder();
+  }
 
-	@Bean
-	LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-		interceptor.setParamName("lang");
-		return interceptor;
-	}
+  @Bean
+  LocaleChangeInterceptor localeChangeInterceptor() {
+    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+    interceptor.setParamName("lang");
+    return interceptor;
+  }
 
-	@Bean
-	AcceptHeaderLocaleResolver acceptHeaderLocaleResolver() {
-		AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-		localeResolver.setSupportedLocales(AppConfig.SUPPORTED_LOCALES);
-		localeResolver.setDefaultLocale(AppConfig.DEFAULT_LOCALE);
-		return localeResolver;
-	}
+  @Bean
+  AcceptHeaderLocaleResolver acceptHeaderLocaleResolver() {
+    AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+    localeResolver.setSupportedLocales(AppConfig.SUPPORTED_LOCALES);
+    localeResolver.setDefaultLocale(AppConfig.DEFAULT_LOCALE);
+    return localeResolver;
+  }
 
-	@Bean
-	MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+  @Bean
+  MessageSource messageSource() {
+    ReloadableResourceBundleMessageSource messageSource =
+        new ReloadableResourceBundleMessageSource();
 
-		messageSource.setBasename("classpath:/i18n/messages");
-		messageSource.setDefaultEncoding("UTF-8");
-		messageSource.setUseCodeAsDefaultMessage(true);
-		return messageSource;
-	}
+    messageSource.setBasename("classpath:/i18n/messages");
+    messageSource.setDefaultEncoding("UTF-8");
+    messageSource.setUseCodeAsDefaultMessage(true);
+    return messageSource;
+  }
 }

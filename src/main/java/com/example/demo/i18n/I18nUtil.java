@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class I18nUtil {
 
-	@Resource(name = "localeHolder")
-	public LocaleHolder localeHolder;
+  @Resource(name = "localeHolder")
+  public LocaleHolder localeHolder;
 
   @Autowired MessageSource messageSource;
 
-	public String getMessage(String code, String... args) {
-		return messageSource.getMessage(code, (Object[]) args, localeHolder.getCurrentLocale());
-	}
+  public String getMessage(String code, String... args) {
+    return messageSource.getMessage(code, args, localeHolder.getCurrentLocale());
+  }
 }

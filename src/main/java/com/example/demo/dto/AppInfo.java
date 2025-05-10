@@ -9,9 +9,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class AppInfo {
 
-    private String name;
-    private String version;
-    private String description;
-    @JsonProperty("supported_locales")
-    private List<String> supportedLocales;
+  private String name;
+  private String version;
+  private String description;
+
+  @JsonProperty("supported_locales")
+  private List<String> supportedLocales;
 }

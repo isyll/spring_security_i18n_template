@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class LocaleHolder {
 
-	private Locale currentLocale;
+  private Locale currentLocale;
 }

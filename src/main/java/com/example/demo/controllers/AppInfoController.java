@@ -26,6 +26,6 @@ public class AppInfoController {
     AppConfig.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
     AppInfo appInfo =
         new AppInfo(AppConfig.APP_NAME, AppConfig.APP_VERSION, AppConfig.APP_DESCRIPTION, locales);
-    return ApiResponse.success(appInfo).toReponseEntity();
+    return ApiResponse.success(appInfo).toResponseEntity();
   }
 }

@@ -96,6 +96,6 @@ public class User {
 
   @JsonGetter("roles")
   public List<String> getRoleName() {
-    return roles.stream().map((role) -> role.getName()).toList();
+    return roles.stream().map(Role::getName).toList();
   }
 }

@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class RefreshTokenRequest {
 
-    @NotNull(message = "{validation.refresh_token_is_mandatory}")
-    @NotBlank(message = "{validation.refresh_token_cannot_be_empty}")
-    @JsonProperty("refresh_token")
-    private String refreshToken;
+  @NotNull(message = "{validation.refresh_token_is_mandatory}")
+  @NotBlank(message = "{validation.refresh_token_cannot_be_empty}")
+  @JsonProperty("refresh_token")
+  private String refreshToken;
 }

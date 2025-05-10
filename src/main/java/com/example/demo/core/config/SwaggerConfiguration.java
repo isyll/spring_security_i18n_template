@@ -1,4 +1,5 @@
 package com.example.demo.core.config;
+
 import com.example.demo.core.constants.SwaggerConfig;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

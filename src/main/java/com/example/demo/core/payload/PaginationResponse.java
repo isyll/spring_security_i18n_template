@@ -26,7 +26,7 @@ public class PaginationResponse<T> {
   private long pageSize;
 
   public PaginationResponse(Page<T> data) {
-    this.content = data.get().map(item -> item);
+    this.content = data.get();
     this.totalElements = data.getTotalElements();
     this.totalPages = data.getTotalPages();
     this.hasNext = data.hasNext();
