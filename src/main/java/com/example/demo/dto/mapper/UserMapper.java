@@ -1,7 +1,7 @@
 package com.example.demo.dto.mapper;
 
-import com.example.demo.dto.SignupRequest;
-import com.example.demo.models.User;
+import com.example.demo.dto.request.SignupRequest;
+import com.example.demo.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

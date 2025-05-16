@@ -2,7 +2,7 @@ package com.example.demo.security;
 
 import com.example.demo.security.jwt.AuthEntryPointJwt;
 import com.example.demo.security.jwt.AuthTokenFilter;
-import com.example.demo.services.UserDetailsServiceImpl;
+import com.example.demo.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +33,7 @@ public class WebSecurityConfig {
 
   @Bean
   static RoleHierarchy roleHierarchy() {
-    RoleHierarchyImpl hierarchy =
-        RoleHierarchyImpl.fromHierarchy("ROLE_SUPERUSER > ROLE_ADMIN\nROLE_ADMIN > ROLE_USER");
-    return hierarchy;
+    return RoleHierarchyImpl.fromHierarchy("ROLE_ADMIN > ROLE_USER");
   }
 
   @Bean

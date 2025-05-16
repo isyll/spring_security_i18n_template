@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
 import com.example.demo.core.constants.AppConfig;
 import com.example.demo.core.payload.ApiResponse;

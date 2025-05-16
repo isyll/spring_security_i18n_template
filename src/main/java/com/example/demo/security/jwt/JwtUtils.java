@@ -1,7 +1,7 @@
 package com.example.demo.security.jwt;
 
 import com.example.demo.core.utils.CustomProperties;
-import com.example.demo.services.UserDetailsImpl;
+import com.example.demo.service.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
@@ -10,9 +10,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +25,7 @@ public class JwtUtils {
   @Autowired CustomProperties customProperties;
 
   public String generateAccessToken(Authentication authentication) {
-    List<String> roles = new ArrayList<>();
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-    userPrincipal
-        .getAuthorities()
-        .forEach(
-            (authority) -> {
-              roles.add(authority.getAuthority());
-            });
 
     return Jwts.builder()
         .claim("type", "access")
@@ -52,6 +43,7 @@ public class JwtUtils {
 
   public String generateRefreshToken(Authentication authentication) {
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
     return Jwts.builder()
         .claim("type", "refresh")
         .subject(userPrincipal.getUsername())

@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
 import com.example.demo.core.utils.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -32,7 +32,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @DynamicUpdate
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE User SET status = 'DELETED' WHERE id=?")
+@SQLDelete(sql = "UPDATE users SET status = 'DELETED' WHERE id=?")
 @SQLRestriction("status <> 'DELETED'")
 @AllArgsConstructor
 @NoArgsConstructor

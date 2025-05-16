@@ -1,14 +1,13 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
 import com.example.demo.core.payload.PaginationResponse;
-import com.example.demo.models.User;
-import com.example.demo.repos.UserRepository;
+import com.example.demo.dto.pagination.PaginationParams;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +18,12 @@ public class UserService {
 
   @Autowired private PasswordEncoder passwordEncoder;
 
-  public PaginationResponse<User> findUsers(int page, int size, String[] sortParams) {
-    Sort sorting = Sort.by(Order.asc(sortParams[0]));
-    if (sortParams.length > 1 && "desc".equalsIgnoreCase(sortParams[1])) {
-      sorting = Sort.by(Order.desc(sortParams[0]));
-    }
-    Pageable pageable = PageRequest.of(page, size, sorting);
+  public User findById(long id) {
+    return userRepository.findById(id).orElse(null);
+  }
+
+  public PaginationResponse<User> findUsers(PaginationParams params) {
+    Pageable pageable = PageRequest.of(params.getPage(), params.getSize(), params.getSort());
     Page<User> users = userRepository.findAll(pageable);
     return new PaginationResponse<>(users);
   }

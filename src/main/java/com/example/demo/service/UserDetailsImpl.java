@@ -1,11 +1,10 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
-import com.example.demo.models.Role;
-import com.example.demo.models.User;
-import java.util.ArrayList;
+import com.example.demo.model.User;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,15 +26,15 @@ public class UserDetailsImpl implements UserDetails {
 
   public UserDetailsImpl(
       Long id,
-      String password,
       String email,
+      String password,
       String phone,
       String firstName,
       String lastName,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
-    this.password = password;
     this.email = email;
+    this.password = password;
     this.username = email;
     this.phone = phone;
     this.firstName = firstName;
@@ -48,29 +47,23 @@ public class UserDetailsImpl implements UserDetails {
 
     return new UserDetailsImpl(
         user.getId(),
-        user.getPassword(),
         user.getEmail(),
+        user.getPassword(),
         user.getPhone(),
         user.getFirstName(),
         user.getLastName(),
         authorities);
   }
 
-  private static Collection<String> getPermissions(Set<Role> roles) {
-    Collection<String> permissions = new ArrayList<>();
-    for (Role role : roles) {
-      permissions.add(role.getName());
-    }
-    return permissions;
-  }
-
   private static Collection<GrantedAuthority> getGrantedAuthorities(User user) {
-    Collection<GrantedAuthority> authorities = new ArrayList<>();
-    Collection<String> permissions = getPermissions(user.getRoles());
-    for (String permission : permissions) {
-      authorities.add(new SimpleGrantedAuthority(permission));
-    }
-    return authorities;
+    return user.getRoles().stream()
+        .flatMap(
+            role ->
+                Stream.concat(
+                    Stream.of(new SimpleGrantedAuthority(role.getName())),
+                    role.getPermissions().stream()
+                        .map(permission -> new SimpleGrantedAuthority(permission.getName()))))
+        .collect(Collectors.toSet());
   }
 
   @Override

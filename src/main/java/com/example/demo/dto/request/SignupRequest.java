@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.request;
 
 import com.example.demo.core.validators.E164PhoneValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;

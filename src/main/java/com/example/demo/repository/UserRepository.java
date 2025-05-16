@@ -1,6 +1,6 @@
-package com.example.demo.repos;
+package com.example.demo.repository;
 
-import com.example.demo.models.User;
+import com.example.demo.model.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;

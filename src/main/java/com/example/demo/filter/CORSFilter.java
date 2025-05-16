@@ -1,4 +1,4 @@
-package com.example.demo.filters;
+package com.example.demo.filter;
 
 import com.example.demo.core.constants.AppConfig;
 import jakarta.annotation.Nonnull;

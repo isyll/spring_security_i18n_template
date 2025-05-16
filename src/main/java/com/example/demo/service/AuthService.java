@@ -1,11 +1,11 @@
-package com.example.demo.services;
+package com.example.demo.service;
 
 import com.example.demo.core.exceptions.BadRequestException;
 import com.example.demo.core.exceptions.ResourceNotFoundException;
 import com.example.demo.i18n.I18nUtil;
-import com.example.demo.models.AccountStatus;
-import com.example.demo.models.User;
-import com.example.demo.repos.UserRepository;
+import com.example.demo.model.AccountStatus;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

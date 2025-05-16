@@ -1,4 +1,4 @@
-package com.example.demo.filters;
+package com.example.demo.filter;
 
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
@@ -29,7 +29,7 @@ public class TrailingSlashFilter extends OncePerRequestFilter {
       String path = builder.build().getPath();
       assert path != null;
       builder.replacePath(String.format("%s", path.substring(0, path.length() - 1)));
-      response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
+      response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
       response.setHeader(HttpHeaders.LOCATION, builder.toUriString());
     } else {
       filterChain.doFilter(request, response);

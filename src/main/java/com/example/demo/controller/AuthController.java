@@ -1,14 +1,14 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
 import com.example.demo.core.payload.ApiResponse;
-import com.example.demo.dto.JwtResponse;
-import com.example.demo.dto.RefreshTokenRequest;
-import com.example.demo.dto.SigninRequest;
-import com.example.demo.dto.SignupRequest;
+import com.example.demo.dto.response.JwtResponse;
+import com.example.demo.dto.request.RefreshTokenRequest;
+import com.example.demo.dto.request.SigninRequest;
+import com.example.demo.dto.request.SignupRequest;
 import com.example.demo.dto.mapper.UserMapper;
-import com.example.demo.models.User;
-import com.example.demo.services.AuthService;
-import com.example.demo.services.UserService;
+import com.example.demo.model.User;
+import com.example.demo.service.AuthService;
+import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -36,6 +36,7 @@ public class AuthController {
       @RequestBody @Valid SigninRequest signinRequest) {
     String email = signinRequest.getEmail();
     String password = signinRequest.getPassword();
+
     String accessToken = authService.generateAccessToken(email, password);
     String refreshToken = authService.generateRefreshToken(email, password);
     JwtResponse response = new JwtResponse(accessToken, refreshToken);
