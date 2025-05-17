@@ -14,12 +14,12 @@ public class PaginationResponse<T> {
   private long totalElements;
 
   @JsonProperty("total_pages")
-  private long totalPages;
+  private int totalPages;
 
   @JsonProperty("current_page")
   private int currentPage;
 
-  private long size;
+  private int size;
 
   public PaginationResponse(Page<T> data) {
     this.content = data.getContent();

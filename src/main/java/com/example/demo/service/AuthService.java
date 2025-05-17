@@ -2,10 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.config.security.jwt.JwtUtils;
+import com.example.demo.dto.request.LoginRequest;
+import com.example.demo.dto.request.RefreshTokenRequest;
+import com.example.demo.dto.response.JwtResponse;
 import com.example.demo.exceptions.BadRequestException;
-import com.example.demo.model.AccountStatus;
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,43 +17,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-  @Autowired private UserRepository userRepository;
-
-  @Autowired private AuthenticationManager authenticationManager;
-
   @Autowired private I18nUtil i18nUtil;
-
   @Autowired private JwtUtils jwtUtils;
-
+  @Autowired private AuthenticationManager authenticationManager;
   @Autowired private UserDetailsServiceImpl userDetailsService;
 
-  public void deleteMyAccount() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-    User user = userRepository.findById(userDetails.getId()).orElseThrow(RuntimeException::new);
-
-    user.setStatus(AccountStatus.DELETED);
-    userRepository.save(user);
-  }
-
-  public String generateAccessToken(String username, String password) {
-    Authentication authentication = generateAuthentication(username, password);
+  public JwtResponse authenticate(LoginRequest request) {
+    Authentication authentication =
+        generateAuthentication(request.getEmail(), request.getPassword());
     SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    return jwtUtils.generateAccessToken(authentication);
+    String accessToken = jwtUtils.generateAccessToken(authentication);
+    String refreshToken = jwtUtils.generateRefreshToken(authentication);
+    return new JwtResponse(accessToken, refreshToken);
   }
 
-  public String generateRefreshToken(String username, String password) {
-    Authentication authentication = generateAuthentication(username, password);
-    return jwtUtils.generateRefreshToken(authentication);
-  }
-
-  public String generateFromRefreshToken(String refreshToken) {
-    if (refreshToken == null || refreshToken.isEmpty()) {
-      String message = i18nUtil.getMessage("error.refresh_token_missing");
-      throw new BadRequestException(message);
-    }
+  public String authenticateFromRefreshToken(RefreshTokenRequest request) {
+    String refreshToken = request.getRefreshToken();
 
     if (!jwtUtils.validateJwtToken(refreshToken)) {
       String message = i18nUtil.getMessage("error.invalid_token");
@@ -65,7 +44,7 @@ public class AuthService {
       throw new BadRequestException(message);
     }
 
-    String username = jwtUtils.getUserNameFromJwtToken(refreshToken);
+    String username = jwtUtils.getUsernameFromJwtToken(refreshToken);
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
     UsernamePasswordAuthenticationToken authentication =

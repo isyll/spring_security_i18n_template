@@ -28,7 +28,8 @@ public class UserController {
           "Returns a paginated list of users based on page number, page size, and sort parameters.")
   @GetMapping
   //  @Secured({"SHOW_USER_DATA", "SHOW_USERS_LIST"})
-  public ResponseEntity<ApiResponse<PaginationResponse<User>>> getUsers(@ParameterObject PaginationParams params) {
+  public ResponseEntity<ApiResponse<PaginationResponse<User>>> getUsers(
+      @ParameterObject PaginationParams params) {
     PaginationResponse<User> response = userService.findUsers(params);
     return ApiResponse.success(response).toResponseEntity();
   }

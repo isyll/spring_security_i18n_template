@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.mapper.UserMapper;
+import com.example.demo.dto.request.LoginRequest;
 import com.example.demo.dto.request.RefreshTokenRequest;
-import com.example.demo.dto.request.SigninRequest;
 import com.example.demo.dto.request.SignupRequest;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.JwtResponse;
@@ -25,38 +25,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   @Autowired private AuthService authService;
-
   @Autowired private UserService userService;
-
   @Autowired private UserMapper userMapper;
 
-  @PostMapping("/signin")
-  @Operation(summary = "Sign in", description = "Log in with his or her email and password.")
-  public ResponseEntity<ApiResponse<JwtResponse>> signin(
-      @RequestBody @Valid SigninRequest signinRequest) {
-    String email = signinRequest.getEmail();
-    String password = signinRequest.getPassword();
-
-    String accessToken = authService.generateAccessToken(email, password);
-    String refreshToken = authService.generateRefreshToken(email, password);
-    JwtResponse response = new JwtResponse(accessToken, refreshToken);
+  @PostMapping("/login")
+  @Operation(summary = "Login", description = "Log in with email and password.")
+  public ResponseEntity<ApiResponse<JwtResponse>> login(@RequestBody @Valid LoginRequest request) {
+    JwtResponse response = authService.authenticate(request);
     return ApiResponse.success(response).toResponseEntity();
   }
 
   @PostMapping("/signup")
-  @Operation(summary = "Sign up", description = "Register a new user.")
-  public ResponseEntity<ApiResponse<User>> signup(@RequestBody @Valid SignupRequest signupRequest) {
-    User registeredUser = userService.registerUser(userMapper.toUser(signupRequest));
-    return ApiResponse.success(registeredUser).toResponseEntity();
+  @Operation(summary = "Sign up", description = "Create new account.")
+  public ResponseEntity<ApiResponse<User>> signup(@RequestBody @Valid SignupRequest request) {
+    User createdUser = userService.registerUser(userMapper.toUser(request));
+    return ApiResponse.success(createdUser).toResponseEntity();
   }
 
   @PostMapping("/refresh-token")
   @Operation(summary = "Refresh token", description = "Get new access token from refresh token.")
   public ResponseEntity<ApiResponse<JwtResponse>> refreshToken(
       @RequestBody @Valid RefreshTokenRequest request) {
-    String refreshToken = request.getRefreshToken();
-    String accessToken = authService.generateFromRefreshToken(refreshToken);
-    JwtResponse response = new JwtResponse(accessToken, refreshToken);
+    String accessToken = authService.authenticateFromRefreshToken(request);
+    JwtResponse response = new JwtResponse(accessToken, request.getRefreshToken());
     return ApiResponse.success(response).toResponseEntity();
   }
 }

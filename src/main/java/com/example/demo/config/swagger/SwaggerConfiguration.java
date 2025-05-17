@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfiguration {
-  private static final String SWAGGER_API_VERSION = "1.0.0";
+
+  private static final String SWAGGER_API_VERSION = "1.0";
   private static final String title = "Demo application";
   private static final String description = "REST API for Demo application.";
   private static final String termsOfServiceUrl = "https://example.com/terms-of-services";
@@ -19,14 +20,9 @@ public class SwaggerConfiguration {
   private static final String licenseUrl = "https://example.com/license";
   private static final String externalDocs = "https://example.com/docs";
 
-  private final License licence = new License().name(license).url(licenseUrl);
-
-  private final Contact contact = new Contact().name(contactEmail);
-
-  private final ExternalDocumentation docs =
-      new ExternalDocumentation().description("Project Documentation").url(externalDocs);
-
-  private final Info info =
+  private static final License licence = new License().name(license).url(licenseUrl);
+  private static final Contact contact = new Contact().name(contactEmail);
+  private static final Info info =
       new Info()
           .title(title)
           .description(description)
@@ -34,6 +30,8 @@ public class SwaggerConfiguration {
           .termsOfService(termsOfServiceUrl)
           .contact(contact)
           .license(licence);
+  private static final ExternalDocumentation docs =
+      new ExternalDocumentation().description("Project Documentation").url(externalDocs);
 
   @Bean
   public OpenAPI customOpenAPI() {

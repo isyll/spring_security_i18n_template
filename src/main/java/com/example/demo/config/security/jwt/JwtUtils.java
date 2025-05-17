@@ -53,7 +53,7 @@ public class JwtUtils {
         .compact();
   }
 
-  public String getUserNameFromJwtToken(String token) {
+  public String getUsernameFromJwtToken(String token) {
     return payload(token).getSubject();
   }
 

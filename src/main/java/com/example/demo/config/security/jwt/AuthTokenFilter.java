@@ -20,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Autowired private JwtUtils jwtUtils;
-
   @Autowired private UserDetailsServiceImpl userDetailsService;
 
   @Override
@@ -32,7 +31,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     try {
       String jwt = parseJwt(request);
       if (jwt != null && jwtUtils.checkTokenType(jwt, "access") && jwtUtils.validateJwtToken(jwt)) {
-        String username = jwtUtils.getUserNameFromJwtToken(jwt);
+        String username = jwtUtils.getUsernameFromJwtToken(jwt);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication =

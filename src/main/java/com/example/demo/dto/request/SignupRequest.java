@@ -1,6 +1,6 @@
 package com.example.demo.dto.request;
 
-import com.example.demo.validators.E164PhoneValidation;
+import com.example.demo.validator.annotations.E164PhoneValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.validation.constraints.NotBlank;

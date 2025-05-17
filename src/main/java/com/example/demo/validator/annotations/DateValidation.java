@@ -1,5 +1,6 @@
-package com.example.demo.validators;
+package com.example.demo.validator.annotations;
 
+import com.example.demo.validator.DateValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.Documented;
@@ -8,12 +9,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+@Documented
+@Constraint(validatedBy = DateValidator.class)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Constraint(validatedBy = E164PhoneValidator.class)
-public @interface E164PhoneValidation {
-  String message() default "{validation.phone_is_invalid}";
+public @interface DateValidation {
+
+  String message();
+
+  boolean isBeforeNow() default true;
 
   Class<?>[] groups() default {};
 

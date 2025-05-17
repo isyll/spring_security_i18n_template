@@ -13,8 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,8 +55,7 @@ public class UserService {
   }
 
   public PaginationResponse<User> findUsers(PaginationParams params) {
-    Pageable pageable = PageRequest.of(params.getPage(), params.getSize(), params.getSort());
-    Page<User> users = userRepository.findAll(pageable);
+    Page<User> users = userRepository.findAll(params.getPageable());
     return new PaginationResponse<>(users);
   }
 

@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 @Data
@@ -24,8 +26,8 @@ public class PaginationParams {
       example = "10",
       minimum = "1",
       maximum = "500",
-      defaultValue = "10")
-  private int size = 10;
+      defaultValue = "25")
+  private int size = 25;
 
   @Schema(
       description =
@@ -34,11 +36,7 @@ public class PaginationParams {
       defaultValue = "id,asc")
   private String sort = "id,asc";
 
-  public void setPage(int page) {
-    this.page = Math.max(page - 1, 0);
-  }
-
-  public Sort getSort() {
+  private Sort getSort() {
     String[] parts = sort.split(",");
     String property = parts[0];
     Sort.Direction direction =
@@ -47,5 +45,13 @@ public class PaginationParams {
             : Sort.Direction.ASC;
 
     return Sort.by(direction, property);
+  }
+
+  public void setPage(int page) {
+    this.page = Math.max(page - 1, 0);
+  }
+
+  public Pageable getPageable() {
+    return PageRequest.of(page, size, getSort());
   }
 }

@@ -61,7 +61,7 @@ public class User extends BaseEntity {
   @JsonProperty("last_name")
   private String lastName;
 
-  @Column(nullable = true, unique = true)
+  @Column(unique = true)
   @JsonProperty(value = "photo_url")
   private String photoUrl;
 

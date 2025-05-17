@@ -1,6 +1,7 @@
-package com.example.demo.validators;
+package com.example.demo.validator;
 
 import com.example.demo.model.Gender;
+import com.example.demo.validator.annotations.GenderValidation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
