@@ -1,13 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.core.exceptions.BadRequestException;
-import com.example.demo.core.exceptions.ResourceNotFoundException;
 import com.example.demo.i18n.I18nUtil;
 import com.example.demo.model.AccountStatus;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,21 +27,11 @@ public class AuthService {
 
   @Autowired private UserDetailsServiceImpl userDetailsService;
 
-  public User findUserById(Long id) {
-    Optional<User> user = userRepository.findById(id);
-    if (user.isEmpty()) {
-      String message = i18nUtil.getMessage("error.user_not_found");
-      throw new ResourceNotFoundException(message);
-    }
-    return user.get();
-  }
-
   public void deleteMyAccount() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-    User user =
-        userRepository.findById(userDetails.getId()).orElseThrow(() -> new RuntimeException());
+    User user = userRepository.findById(userDetails.getId()).orElseThrow(RuntimeException::new);
 
     user.setStatus(AccountStatus.DELETED);
     userRepository.save(user);

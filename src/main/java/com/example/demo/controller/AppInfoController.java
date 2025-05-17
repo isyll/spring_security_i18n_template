@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.core.constants.AppConfig;
-import com.example.demo.core.payload.ApiResponse;
-import com.example.demo.dto.AppInfo;
+import com.example.demo.dto.response.ApiResponse;
+import com.example.demo.dto.response.AppInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;

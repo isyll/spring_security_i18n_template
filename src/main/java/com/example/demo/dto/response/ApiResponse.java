@@ -1,4 +1,4 @@
-package com.example.demo.core.payload;
+package com.example.demo.dto.response;
 
 import com.example.demo.core.utils.DateTimeUtils;
 import com.example.demo.core.utils.RequestUtils;

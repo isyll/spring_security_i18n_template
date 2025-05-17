@@ -1,6 +1,6 @@
 package com.example.demo.core.exceptions;
 
-import com.example.demo.core.payload.ApiResponse;
+import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.core.utils.StringUtils;
 import com.example.demo.i18n.I18nUtil;
 import java.util.HashMap;

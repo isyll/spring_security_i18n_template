@@ -8,9 +8,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -36,11 +33,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLRestriction("status <> 'DELETED'")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class User extends BaseEntity {
 
   @JsonIgnore
   @ManyToMany
@@ -54,7 +47,7 @@ public class User {
   @Column(nullable = false, length = 60)
   private String password;
 
-  @Column(unique = true, nullable = false)
+  @Column(unique = true, nullable = false, length = 180)
   private String email;
 
   @Column(unique = true, nullable = false, length = 15)
@@ -76,11 +69,11 @@ public class User {
   @Enumerated(EnumType.STRING)
   private AccountStatus status = AccountStatus.ACTIVE;
 
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
   @Column(name = "created_at", nullable = false)
   private ZonedDateTime createdAt;
 
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  @JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
   @Column(name = "updated_at", nullable = false)
   private ZonedDateTime updatedAt;
 

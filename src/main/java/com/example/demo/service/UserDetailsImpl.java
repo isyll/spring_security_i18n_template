@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.User;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 public class UserDetailsImpl implements UserDetails {
 
-  private Long id;
+  private UUID id;
   private String password;
   private String email;
   private String username;
@@ -25,7 +26,7 @@ public class UserDetailsImpl implements UserDetails {
   private Collection<? extends GrantedAuthority> authorities;
 
   public UserDetailsImpl(
-      Long id,
+      UUID id,
       String email,
       String password,
       String phone,

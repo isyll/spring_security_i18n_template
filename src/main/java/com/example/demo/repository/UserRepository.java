@@ -2,19 +2,22 @@ package com.example.demo.repository;
 
 import com.example.demo.model.User;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
 
-  Optional<User> findById(Long id);
+  Optional<User> findById(UUID id);
 
   <S extends User> S save(S entity);
 
   User findByEmail(String email);
+
+  User findByPhone(String phone);
 
   boolean existsByEmail(String email);
 

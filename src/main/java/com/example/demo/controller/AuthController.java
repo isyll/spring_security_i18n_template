@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.core.payload.ApiResponse;
+import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.JwtResponse;
 import com.example.demo.dto.request.RefreshTokenRequest;
 import com.example.demo.dto.request.SigninRequest;
