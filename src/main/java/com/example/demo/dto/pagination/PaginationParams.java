@@ -1,5 +1,6 @@
 package com.example.demo.dto.pagination;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -9,12 +10,28 @@ import org.springframework.data.domain.Sort;
 public class PaginationParams {
 
   @Min(1)
+  @Schema(
+      description = "Page number to retrieve (starting from 1)",
+      example = "1",
+      minimum = "1",
+      defaultValue = "1")
   private int page = 1;
 
   @Min(1)
   @Max(500)
+  @Schema(
+      description = "Number of items per page (between 1 and 500)",
+      example = "10",
+      minimum = "1",
+      maximum = "500",
+      defaultValue = "10")
   private int size = 10;
 
+  @Schema(
+      description =
+          "Sorting criteria in the format `field,direction` (e.g. `id,asc` or `name,desc`)",
+      example = "id,asc",
+      defaultValue = "id,asc")
   private String sort = "id,asc";
 
   public void setPage(int page) {
