@@ -16,6 +16,7 @@ public abstract class BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
+  @JsonProperty("uuid")
   private UUID id;
 
   @JsonIgnore
@@ -28,12 +29,12 @@ public abstract class BaseEntity {
     this.id = id;
   }
 
-  @JsonProperty("id")
+  @JsonProperty("public_id")
   public String getPublicId() {
     return Base62.encode(id);
   }
 
-  @JsonProperty("id")
+  @JsonProperty("public_id")
   public void setPublicId(String publicId) {
     this.id = Base62.decode(publicId);
   }
