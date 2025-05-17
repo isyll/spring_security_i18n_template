@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.core.utils.DateTimeUtils;
+import com.example.demo.utils.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

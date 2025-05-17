@@ -1,14 +1,12 @@
 package com.example.demo.model;
 
-import com.example.demo.core.utils.Base62;
+import com.example.demo.utils.Base62;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-
 import java.util.UUID;
 
 @MappedSuperclass

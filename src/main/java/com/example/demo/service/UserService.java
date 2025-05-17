@@ -1,14 +1,14 @@
 package com.example.demo.service;
 
-import com.example.demo.core.exceptions.BadRequestException;
-import com.example.demo.core.exceptions.ResourceNotFoundException;
-import com.example.demo.core.utils.Base62;
+import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.dto.pagination.PaginationParams;
 import com.example.demo.dto.response.PaginationResponse;
 import com.example.demo.dto.search.UserLookup;
-import com.example.demo.i18n.I18nUtil;
+import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.Base62;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

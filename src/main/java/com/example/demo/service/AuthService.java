@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.core.exceptions.BadRequestException;
-import com.example.demo.i18n.I18nUtil;
+import com.example.demo.config.i18n.I18nUtil;
+import com.example.demo.config.security.jwt.JwtUtils;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.AccountStatus;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

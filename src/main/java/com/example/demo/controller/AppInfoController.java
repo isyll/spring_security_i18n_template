@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.core.constants.AppConfig;
+import com.example.demo.config.constants.AppInfo;
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.dto.response.AppInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.ArrayList;
@@ -21,11 +20,12 @@ public class AppInfoController {
       summary = "Get app information",
       description = "This endpoint provides application information.")
   @GetMapping
-  public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
+  public ResponseEntity<ApiResponse<com.example.demo.dto.response.AppInfo>> getAppInfo() {
     List<String> locales = new ArrayList<>();
-    AppConfig.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
-    AppInfo appInfo =
-        new AppInfo(AppConfig.APP_NAME, AppConfig.APP_VERSION, AppConfig.APP_DESCRIPTION, locales);
+    AppInfo.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
+    com.example.demo.dto.response.AppInfo appInfo =
+        new com.example.demo.dto.response.AppInfo(
+            AppInfo.APP_NAME, AppInfo.APP_VERSION, AppInfo.APP_DESCRIPTION, locales);
     return ApiResponse.success(appInfo).toResponseEntity();
   }
 }

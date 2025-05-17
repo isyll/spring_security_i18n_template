@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.core.utils.Base62;
+import com.example.demo.utils.Base62;
 import java.util.UUID;
 import lombok.Getter;
 
