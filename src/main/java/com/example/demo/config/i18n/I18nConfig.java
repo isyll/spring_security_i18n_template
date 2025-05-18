@@ -1,6 +1,6 @@
 package com.example.demo.config.i18n;
 
-import com.example.demo.config.constants.AppInfo;
+import com.example.demo.config.constants.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -40,8 +40,8 @@ public class I18nConfig implements WebMvcConfigurer {
   @Bean
   AcceptHeaderLocaleResolver acceptHeaderLocaleResolver() {
     AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-    localeResolver.setSupportedLocales(AppInfo.SUPPORTED_LOCALES);
-    localeResolver.setDefaultLocale(AppInfo.DEFAULT_LOCALE);
+    localeResolver.setSupportedLocales(AppConstants.SUPPORTED_LOCALES);
+    localeResolver.setDefaultLocale(AppConstants.DEFAULT_LOCALE);
     return localeResolver;
   }
 

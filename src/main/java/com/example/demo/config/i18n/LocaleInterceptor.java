@@ -1,6 +1,6 @@
 package com.example.demo.config.i18n;
 
-import com.example.demo.config.constants.AppInfo;
+import com.example.demo.config.constants.AppConstants;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,10 +41,10 @@ public class LocaleInterceptor implements HandlerInterceptor {
       AcceptHeaderLocaleResolver headerLocaleResolver, HttpServletRequest request) {
     Locale locale = headerLocaleResolver.resolveLocale(request);
 
-    if (AppInfo.SUPPORTED_LOCALES.contains(locale)) {
+    if (AppConstants.SUPPORTED_LOCALES.contains(locale)) {
       return locale;
     }
 
-    return AppInfo.DEFAULT_LOCALE;
+    return AppConstants.DEFAULT_LOCALE;
   }
 }

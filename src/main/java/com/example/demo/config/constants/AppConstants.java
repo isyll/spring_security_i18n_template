@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class AppInfo {
+public class AppConstants {
 
   public static final String APP_NAME = "Demo application";
   public static final String AUTHOR = "Ibrahima Sylla";

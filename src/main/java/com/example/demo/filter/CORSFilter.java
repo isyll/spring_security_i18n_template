@@ -1,6 +1,6 @@
 package com.example.demo.filter;
 
-import com.example.demo.config.constants.AppInfo;
+import com.example.demo.config.constants.AppConstants;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,10 +17,10 @@ public class CORSFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       @Nonnull HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    response.setHeader("Server", AppInfo.APP_NAME);
-    response.setHeader("X-App-Name", AppInfo.APP_NAME);
-    response.setHeader("X-App-Version", AppInfo.APP_VERSION);
-    response.setHeader("X-App-Developer", AppInfo.AUTHOR);
+    response.setHeader("Server", AppConstants.APP_NAME);
+    response.setHeader("X-App-Name", AppConstants.APP_NAME);
+    response.setHeader("X-App-Version", AppConstants.APP_VERSION);
+    response.setHeader("X-App-Developer", AppConstants.AUTHOR);
 
     response.addHeader("Access-Control-Allow-Origin", "*");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
