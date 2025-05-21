@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RestController
 @Tag(name = "Authentication", description = "API to manage authentication.")
-public class AuthController {
+public class AuthController extends BaseController {
 
   @Autowired private AuthService authService;
   @Autowired private UserService userService;
@@ -32,14 +32,14 @@ public class AuthController {
   @Operation(summary = "Login", description = "Log in with email and password.")
   public ResponseEntity<ApiResponse<JwtResponse>> login(@RequestBody @Valid LoginRequest request) {
     JwtResponse response = authService.authenticate(request);
-    return ApiResponse.success(response).toResponseEntity();
+    return ok(response);
   }
 
   @PostMapping("/signup")
   @Operation(summary = "Sign up", description = "Create new account.")
   public ResponseEntity<ApiResponse<User>> signup(@RequestBody @Valid SignupRequest request) {
     User createdUser = userService.registerUser(userMapper.toUser(request));
-    return ApiResponse.success(createdUser).toResponseEntity();
+    return ok(createdUser);
   }
 
   @PostMapping("/refresh-token")
@@ -48,6 +48,6 @@ public class AuthController {
       @RequestBody @Valid RefreshTokenRequest request) {
     String accessToken = authService.authenticateFromRefreshToken(request);
     JwtResponse response = new JwtResponse(accessToken, request.getRefreshToken());
-    return ApiResponse.success(response).toResponseEntity();
+    return ok(response);
   }
 }

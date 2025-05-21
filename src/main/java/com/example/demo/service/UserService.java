@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.dto.pagination.PaginationParams;
-import com.example.demo.dto.response.PaginationResponse;
+import com.example.demo.dto.pagination.PaginationResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ResourceNotFoundException;

@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.pagination.PaginationParams;
 import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.dto.response.PaginationResponse;
+import com.example.demo.dto.pagination.PaginationResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/users")
 @Tag(name = "User API", description = "API to manage users.")
-public class UserController {
+public class UserController extends BaseController {
 
   @Autowired private UserService userService;
 
@@ -31,7 +31,7 @@ public class UserController {
   public ResponseEntity<ApiResponse<PaginationResponse<User>>> getUsers(
       @ParameterObject PaginationParams params) {
     PaginationResponse<User> response = userService.findUsers(params);
-    return ApiResponse.success(response).toResponseEntity();
+    return ok(response);
   }
 
   @Operation(
@@ -52,6 +52,6 @@ public class UserController {
   // @Secured({"SHOW_USER_DATA"})
   public ResponseEntity<ApiResponse<User>> getUserData(@ParameterObject UserLookup lookup) {
     User user = userService.lookupUser(lookup);
-    return ApiResponse.success(user).toResponseEntity();
+    return ok(user);
   }
 }

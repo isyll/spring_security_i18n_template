@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @Tag(name = "Info API", description = "API to get app information.")
-public class AppInfoController {
+public class AppInfoController extends BaseController {
 
   @Operation(summary = "Greeting")
   @GetMapping
   public ResponseEntity<ApiResponse<Object>> greeting() {
-    String msg = "Welcome to Demo App rest API";
-    return ApiResponse.success(msg).toResponseEntity();
+    return ok("Welcome to Demo App rest API");
   }
 
   @Operation(
@@ -31,9 +30,11 @@ public class AppInfoController {
   public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
     List<String> locales = new ArrayList<>();
     AppConstants.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
-    AppInfo appInfo =
+    return ok(
         new AppInfo(
-            AppConstants.APP_NAME, AppConstants.APP_VERSION, AppConstants.APP_DESCRIPTION, locales);
-    return ApiResponse.success(appInfo).toResponseEntity();
+            AppConstants.APP_NAME,
+            AppConstants.APP_VERSION,
+            AppConstants.APP_DESCRIPTION,
+            locales));
   }
 }

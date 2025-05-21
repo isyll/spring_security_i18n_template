@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.dto.pagination;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -25,7 +25,7 @@ public class PaginationResponse<T> {
     this.content = data.getContent();
     this.totalElements = data.getTotalElements();
     this.totalPages = data.getTotalPages();
-    this.currentPage = data.getNumber();
+    this.currentPage = data.getNumber() + 1;
     this.size = this.content.size();
   }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.config.security.jwt;
 
 import com.example.demo.service.UserDetailsImpl;
+import com.example.demo.utils.Base62;
 import com.example.demo.utils.CustomProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,13 +27,13 @@ public class JwtUtils {
 
   public String generateAccessToken(Authentication authentication) {
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+    String fullName = userPrincipal.getFirstName() + " " + userPrincipal.getLastName();
+    String publicId = Base62.encode(userPrincipal.getId());
 
     return Jwts.builder()
         .claim("type", "access")
-        .claim("id", userPrincipal.getId())
-        .claim("email", userPrincipal.getEmail())
-        .claim("first_name", userPrincipal.getFirstName())
-        .claim("last_name", userPrincipal.getLastName())
+        .claim("id", publicId)
+        .claim("name", fullName)
         .claim("phone", userPrincipal.getPhone())
         .subject(userPrincipal.getUsername())
         .issuedAt(new Date())
