@@ -1,17 +1,17 @@
 package com.example.demo.dto.response.common;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@Getter
-@Setter
+@Value
+@EqualsAndHashCode(callSuper = true)
 @JsonPropertyOrder({"message", "success", "status", "timestamp", "path"})
 public class SuccessResponse extends BaseResponse {
 
-  private String message;
+  String message;
 
   public SuccessResponse(String message) {
     super(HttpStatus.OK);

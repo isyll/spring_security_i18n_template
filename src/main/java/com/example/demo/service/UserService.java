@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.dto.pagination.PaginationParams;
-import com.example.demo.dto.pagination.PaginationResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ResourceNotFoundException;
@@ -60,9 +59,8 @@ public class UserService {
     throw new BadRequestException(i18nUtil.getMessage("error.no_unique_identifier_given"));
   }
 
-  public PaginationResponse<User> findUsers(PaginationParams params) {
-    Page<User> users = userRepository.findAll(params.getPageable());
-    return new PaginationResponse<>(users);
+  public Page<User> findUsers(PaginationParams params) {
+    return userRepository.findAll(params.getPageable());
   }
 
   public User registerUser(User user) {

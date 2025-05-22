@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.pagination.PaginationParams;
-import com.example.demo.dto.pagination.PaginationResponse;
 import com.example.demo.dto.response.common.ApiResponse;
+import com.example.demo.dto.response.common.PaginatedResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -31,7 +31,7 @@ public class UserController extends BaseController {
           "Returns a paginated list of users based on page number, page size, and sort parameters.")
   @GetMapping
   //  @Secured({"SHOW_USER_DATA", "SHOW_USERS_LIST"})
-  public ResponseEntity<ApiResponse<PaginationResponse<User>>> getUsers(
+  public ResponseEntity<PaginatedResponse<User>> getUsers(
       @ParameterObject PaginationParams params) {
     return ok(userService.findUsers(params));
   }

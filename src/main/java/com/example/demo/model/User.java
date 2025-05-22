@@ -4,6 +4,7 @@ import com.example.demo.utils.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,11 +21,13 @@ import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @DynamicUpdate
@@ -33,6 +36,17 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLRestriction("status <> 'DELETED'")
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonPropertyOrder({
+  "public_id",
+  "email",
+  "phone",
+  "first_name",
+  "last_name",
+  "photo_url",
+  "roles",
+  "created_at",
+  "updated_at"
+})
 public class User extends BaseEntity {
 
   @JsonIgnore

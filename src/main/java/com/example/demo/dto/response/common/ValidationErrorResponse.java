@@ -2,17 +2,17 @@ package com.example.demo.dto.response.common;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@Getter
-@Setter
+@Value
+@EqualsAndHashCode(callSuper = true)
 @JsonPropertyOrder({"errors", "success", "status", "timestamp", "path"})
 public class ValidationErrorResponse extends BaseResponse {
 
-  private Map<String, String> errors;
+  Map<String, String> errors;
 
   public ValidationErrorResponse(Map<String, String> errors) {
     super(HttpStatus.BAD_REQUEST);
