@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -24,15 +23,16 @@ public class TrailingSlashFilter extends OncePerRequestFilter {
       @Nonnull HttpServletResponse response,
       @Nonnull FilterChain filterChain)
       throws ServletException, IOException {
-    if (request.getRequestURI().endsWith("/")) {
-      ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
-      String path = builder.build().getPath();
-      assert path != null;
-      builder.replacePath(String.format("%s", path.substring(0, path.length() - 1)));
-      response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
-      response.setHeader(HttpHeaders.LOCATION, builder.toUriString());
-    } else {
-      filterChain.doFilter(request, response);
+    String requestUri = request.getRequestURI();
+    String contextPath = request.getContextPath() + "/";
+
+    if (!requestUri.equals(contextPath) && requestUri.endsWith("/")) {
+      String newUrl = requestUri.substring(0, requestUri.length() - 1);
+      response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
+      response.setHeader(HttpHeaders.LOCATION, newUrl);
+      return;
     }
+
+    filterChain.doFilter(request, response);
   }
 }
