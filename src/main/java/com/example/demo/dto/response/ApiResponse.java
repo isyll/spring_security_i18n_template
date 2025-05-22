@@ -39,10 +39,6 @@ public class ApiResponse<T> {
     return build(null, message, HttpStatus.OK, null);
   }
 
-  public static <T> ResponseEntity<ApiResponse<T>> success(T data, String message) {
-    return build(data, message, HttpStatus.OK, null);
-  }
-
   public static <T> ResponseEntity<ApiResponse<T>> success(
       T data, String message, HttpStatus status) {
     return build(data, message, status, null);

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Getter
 @Configuration
-@ConfigurationProperties
+@ConfigurationProperties("custom")
 @PropertySource("classpath:custom.properties")
 public class CustomProperties {
 

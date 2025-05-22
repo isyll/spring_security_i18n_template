@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.constants.AppConstants;
+import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.AppInfo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Info API", description = "API to get app information.")
 public class AppInfoController extends BaseController {
 
+  private final I18nUtil i18nUtil;
+
+  public AppInfoController(I18nUtil i18nUtil) {
+    this.i18nUtil = i18nUtil;
+  }
+
   @Operation(summary = "Greeting")
-  @GetMapping
+  @GetMapping("/")
   public ResponseEntity<ApiResponse<Object>> greeting() {
-    return ok("Welcome to Demo App rest API");
+    String message = i18nUtil.getMessage("message.greeting");
+    return ok(message);
   }
 
   @Operation(

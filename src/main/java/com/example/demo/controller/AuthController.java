@@ -12,7 +12,6 @@ import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication", description = "API to manage authentication.")
 public class AuthController extends BaseController {
 
-  @Autowired private AuthService authService;
-  @Autowired private UserService userService;
-  @Autowired private UserMapper userMapper;
+  private final AuthService authService;
+  private final UserService userService;
+  private final UserMapper userMapper;
+
+  public AuthController(AuthService authService, UserService userService, UserMapper userMapper) {
+    this.authService = authService;
+    this.userService = userService;
+    this.userMapper = userMapper;
+  }
 
   @PostMapping("/login")
   @Operation(summary = "Login", description = "Log in with email and password.")

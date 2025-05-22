@@ -11,7 +11,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.Base62;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  @Autowired private UserRepository userRepository;
-  @Autowired private PasswordEncoder passwordEncoder;
-  @Autowired private I18nUtil i18nUtil;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final I18nUtil i18nUtil;
+
+  public UserService(
+      UserRepository userRepository, I18nUtil i18nUtil, PasswordEncoder passwordEncoder) {
+    this.userRepository = userRepository;
+    this.i18nUtil = i18nUtil;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   private boolean isUuid(String value) {
     return value != null

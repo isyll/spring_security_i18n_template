@@ -6,7 +6,6 @@ import com.example.demo.dto.request.LoginRequest;
 import com.example.demo.dto.request.RefreshTokenRequest;
 import com.example.demo.dto.response.JwtResponse;
 import com.example.demo.exceptions.BadRequestException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,10 +16,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-  @Autowired private I18nUtil i18nUtil;
-  @Autowired private JwtUtils jwtUtils;
-  @Autowired private AuthenticationManager authenticationManager;
-  @Autowired private UserDetailsServiceImpl userDetailsService;
+  private final I18nUtil i18nUtil;
+  private final JwtUtils jwtUtils;
+  private final AuthenticationManager authenticationManager;
+  private final UserDetailsServiceImpl userDetailsService;
+
+  public AuthService(
+      JwtUtils jwtUtils,
+      I18nUtil i18nUtil,
+      AuthenticationManager authenticationManager,
+      UserDetailsServiceImpl userDetailsService) {
+    this.jwtUtils = jwtUtils;
+    this.i18nUtil = i18nUtil;
+    this.authenticationManager = authenticationManager;
+    this.userDetailsService = userDetailsService;
+  }
 
   public JwtResponse authenticate(LoginRequest request) {
     Authentication authentication =
