@@ -2,12 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.config.constants.AppConstants;
 import com.example.demo.config.i18n.I18nUtil;
-import com.example.demo.dto.response.ApiResponse;
 import com.example.demo.dto.response.AppInfo;
+import com.example.demo.dto.response.common.ApiResponse;
+import com.example.demo.dto.response.common.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,9 @@ public class AppInfoController extends BaseController {
   }
 
   @Operation(summary = "Greeting")
-  @GetMapping("/")
-  public ResponseEntity<ApiResponse<Object>> greeting() {
-    String message = i18nUtil.getMessage("message.greeting");
-    return ok(message);
+  @GetMapping
+  public ResponseEntity<SuccessResponse> greeting() {
+    return ok(i18nUtil.getMessage("message.greeting"));
   }
 
   @Operation(
@@ -36,13 +35,11 @@ public class AppInfoController extends BaseController {
       description = "This endpoint provides application information.")
   @GetMapping("/info")
   public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
-    List<String> locales = new ArrayList<>();
-    AppConstants.SUPPORTED_LOCALES.forEach((locale) -> locales.add(locale.toString()));
     return ok(
         new AppInfo(
             AppConstants.APP_NAME,
             AppConstants.APP_VERSION,
             AppConstants.APP_DESCRIPTION,
-            locales));
+            AppConstants.SUPPORTED_LOCALES.stream().map(Locale::toString).toList()));
   }
 }

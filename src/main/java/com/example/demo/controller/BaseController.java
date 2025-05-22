@@ -1,42 +1,32 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.response.ApiResponse;
+import com.example.demo.dto.response.common.ApiResponse;
+import com.example.demo.dto.response.common.ErrorResponse;
+import com.example.demo.dto.response.common.SuccessResponse;
+import com.example.demo.dto.response.common.ValidationErrorResponse;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 abstract class BaseController {
 
-  protected <T> ResponseEntity<ApiResponse<T>> ok(T data) {
-    return ApiResponse.success(data);
+  protected static <T> ResponseEntity<ApiResponse<T>> ok(T data) {
+    return new ApiResponse<>(data).build();
   }
 
-  protected <T> ResponseEntity<ApiResponse<T>> ok(T data, String message) {
-    return ApiResponse.success(data, message, HttpStatus.OK);
+  protected static <T> ResponseEntity<ApiResponse<T>> ok(T data, HttpStatus status) {
+    return new ApiResponse<>(data, status).build();
   }
 
-  protected ResponseEntity<ApiResponse<Object>> ok(String message) {
-    return ApiResponse.success(message);
+  protected static ResponseEntity<SuccessResponse> ok(String message) {
+    return new SuccessResponse(message).build();
   }
 
-  protected <T> ResponseEntity<ApiResponse<T>> created(T data, String message) {
-    return ApiResponse.success(data, message, HttpStatus.CREATED);
+  protected static ResponseEntity<ErrorResponse> error(String message, HttpStatus status) {
+    return new ErrorResponse(status, message).build();
   }
 
-  protected <T> ResponseEntity<ApiResponse<T>> error(String message) {
-    return ApiResponse.error(message, HttpStatus.BAD_REQUEST);
-  }
-
-  protected <T> ResponseEntity<ApiResponse<T>> error(String message, HttpStatus status) {
-    return ApiResponse.error(message, status);
-  }
-
-  protected <T> ResponseEntity<ApiResponse<T>> error(String message, Map<String, String> errors) {
-    return ApiResponse.error(message, errors);
-  }
-
-  protected ResponseEntity<ApiResponse<Object>> error(
-      HttpStatus status, Map<String, String> errors) {
-    return ApiResponse.error(status, errors);
+  protected static ResponseEntity<ValidationErrorResponse> error(Map<String, String> errors) {
+    return new ValidationErrorResponse(errors).build();
   }
 }

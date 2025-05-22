@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.pagination.PaginationParams;
 import com.example.demo.dto.pagination.PaginationResponse;
-import com.example.demo.dto.response.ApiResponse;
+import com.example.demo.dto.response.common.ApiResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -33,8 +33,7 @@ public class UserController extends BaseController {
   //  @Secured({"SHOW_USER_DATA", "SHOW_USERS_LIST"})
   public ResponseEntity<ApiResponse<PaginationResponse<User>>> getUsers(
       @ParameterObject PaginationParams params) {
-    PaginationResponse<User> response = userService.findUsers(params);
-    return ok(response);
+    return ok(userService.findUsers(params));
   }
 
   @Operation(
@@ -54,7 +53,6 @@ public class UserController extends BaseController {
   @GetMapping("/lookup")
   // @Secured({"SHOW_USER_DATA"})
   public ResponseEntity<ApiResponse<User>> getUserData(@ParameterObject UserLookup lookup) {
-    User user = userService.lookupUser(lookup);
-    return ok(user);
+    return ok(userService.lookupUser(lookup));
   }
 }
