@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -20,12 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByEmail(username);
-
-    if (user == null) {
-      throw new UsernameNotFoundException("User not found with username: " + username);
-    }
-
-    return UserDetailsImpl.build(user);
+    return userRepository
+        .findByEmail(username)
+        .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found: " + username)))
+        .map(UserDetailsImpl::build)
+        .block();
   }
 }

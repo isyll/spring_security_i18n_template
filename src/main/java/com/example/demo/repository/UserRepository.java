@@ -1,39 +1,14 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.User;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, UUID> {
+public interface UserRepository extends ReactiveMongoRepository<User, String> {
 
-  Optional<User> findById(UUID id);
+  Mono<User> findByEmail(String email);
 
-  <S extends User> S save(S entity);
-
-  User findByEmail(String email);
-
-  User findByPhone(String phone);
-
-  boolean existsByEmail(String email);
-
-  boolean existsByPhone(String phone);
-
-  @Query(
-      value =
-          "SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM users u WHERE u.email = :email AND u.id <> :excludedUserId",
-      nativeQuery = true)
-  boolean existsByEmailAndNotExcludedUserId(
-      @Param("email") String email, @Param("excludedUserId") Long excludedUserId);
-
-  @Query(
-      value =
-          "SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM users u WHERE u.phone = :phone AND u.id <> :excludedUserId",
-      nativeQuery = true)
-  boolean existsByPhoneAndNotExcludedUserId(
-      @Param("phone") String phone, @Param("excludedUserId") Long excludedUserId);
+  Mono<User> findByPhone(String phone);
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/users")
@@ -31,9 +32,9 @@ public class UserController extends BaseController {
           "Returns a paginated list of users based on page number, page size, and sort parameters.")
   @GetMapping
   //  @Secured({"SHOW_USER_DATA", "SHOW_USERS_LIST"})
-  public ResponseEntity<PaginatedResponse<User>> getUsers(
+  public Mono<ResponseEntity<PaginatedResponse<User>>> getUsers(
       @ParameterObject PaginationParams params) {
-    return ok(userService.findUsers(params));
+    return userService.findUsers(params).map(BaseController::ok);
   }
 
   @Operation(
@@ -52,7 +53,7 @@ public class UserController extends BaseController {
         """)
   @GetMapping("/lookup")
   // @Secured({"SHOW_USER_DATA"})
-  public ResponseEntity<ApiResponse<User>> getUserData(@ParameterObject UserLookup lookup) {
-    return ok(userService.lookupUser(lookup));
+  public Mono<ResponseEntity<ApiResponse<User>>> getUserData(@ParameterObject UserLookup lookup) {
+    return userService.lookupUser(lookup).map(BaseController::ok);
   }
 }

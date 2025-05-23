@@ -46,6 +46,15 @@ public class PaginatedResponse<T> extends BaseResponse {
     this.size = this.content.size();
   }
 
+  public PaginatedResponse(List<T> data, int page, int size, long total) {
+    super(HttpStatus.OK);
+    this.content = data;
+    this.totalElements = total;
+    this.totalPages = (int) Math.ceil((double) totalElements / size);
+    this.currentPage = page;
+    this.size = size;
+  }
+
   public ResponseEntity<PaginatedResponse<T>> build() {
     return new ResponseEntity<>(this, HttpStatus.valueOf(getStatus()));
   }

@@ -16,8 +16,8 @@ abstract class BaseController {
     return new ApiResponse<>(data).build();
   }
 
-  protected static <T> ResponseEntity<PaginatedResponse<T>> ok(Page<T> data) {
-    return new PaginatedResponse<>(data).build();
+  protected static <T> ResponseEntity<PaginatedResponse<T>> ok(PaginatedResponse<T> data) {
+    return data.build();
   }
 
   protected static <T> ResponseEntity<ApiResponse<T>> ok(T data, HttpStatus status) {

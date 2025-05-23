@@ -2,17 +2,20 @@ package com.example.demo.service;
 
 import com.example.demo.config.i18n.I18nUtil;
 import com.example.demo.dto.pagination.PaginationParams;
+import com.example.demo.dto.response.common.PaginatedResponse;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.utils.Base62;
+import com.example.demo.utils.ReactivePaginationUtils;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
@@ -38,32 +41,39 @@ public class UserService {
     return new ResourceNotFoundException(i18nUtil.getMessage("error.user_not_found"));
   }
 
-  public User lookupUser(UserLookup lookup) {
+  public Mono<User> lookupUser(UserLookup lookup) {
     if (lookup.getId() != null) {
       UUID id =
           isUuid(lookup.getId()) ? UUID.fromString(lookup.getId()) : Base62.decode(lookup.getId());
 
-      return userRepository.findById(id).orElseThrow(this::notFound);
+      return userRepository.findById(id.toString()).switchIfEmpty(Mono.error(notFound()));
     }
 
     if (lookup.getEmail() != null) {
-      return Optional.ofNullable(userRepository.findByEmail(lookup.getEmail()))
-          .orElseThrow(this::notFound);
+      return userRepository.findByEmail(lookup.getEmail()).switchIfEmpty(Mono.error(notFound()));
     }
 
     if (lookup.getPhone() != null) {
-      return Optional.ofNullable(userRepository.findByPhone(lookup.getPhone()))
-          .orElseThrow(this::notFound);
+      return userRepository.findByPhone(lookup.getPhone()).switchIfEmpty(Mono.error(notFound()));
     }
 
-    throw new BadRequestException(i18nUtil.getMessage("error.no_unique_identifier_given"));
+    return Mono.error(
+        new BadRequestException(i18nUtil.getMessage("error.no_unique_identifier_given")));
   }
 
-  public Page<User> findUsers(PaginationParams params) {
-    return userRepository.findAll(params.getPageable());
+  public Flux<User> findUsers(int page, int size) {
+    return userRepository.findAll().skip((long) page * size).take(size);
   }
 
-  public User registerUser(User user) {
+  public Mono<PaginatedResponse<User>> findUsers(PaginationParams params) {
+    int page = params.getPage();
+    int size = params.getSize();
+
+    return ReactivePaginationUtils.paginate(
+        userRepository.findAll(), userRepository.count(), page, size);
+  }
+
+  public Mono<User> registerUser(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }

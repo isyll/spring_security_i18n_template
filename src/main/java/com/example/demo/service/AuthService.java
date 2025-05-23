@@ -10,8 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class AuthService {
@@ -41,27 +41,34 @@ public class AuthService {
     return new JwtResponse(accessToken, refreshToken);
   }
 
-  public String authenticateFromRefreshToken(RefreshTokenRequest request) {
-    String refreshToken = request.getRefreshToken();
+  public Mono<String> authenticateFromRefreshToken(RefreshTokenRequest request) {
+    return Mono.just(request.getRefreshToken())
+        .flatMap(
+            refreshToken -> {
+              if (!jwtUtils.validateJwtToken(refreshToken)) {
+                String message = i18nUtil.getMessage("error.invalid_token");
+                return Mono.error(new BadRequestException(message));
+              }
 
-    if (!jwtUtils.validateJwtToken(refreshToken)) {
-      String message = i18nUtil.getMessage("error.invalid_token");
-      throw new BadRequestException(message);
-    }
+              if (!jwtUtils.checkTokenType(refreshToken, "refresh")) {
+                String message = i18nUtil.getMessage("error.bad_refresh_token");
+                return Mono.error(new BadRequestException(message));
+              }
 
-    if (!jwtUtils.checkTokenType(refreshToken, "refresh")) {
-      String message = i18nUtil.getMessage("error.bad_refresh_token");
-      throw new BadRequestException(message);
-    }
+              String username = jwtUtils.getUsernameFromJwtToken(refreshToken);
 
-    String username = jwtUtils.getUsernameFromJwtToken(refreshToken);
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+              return Mono.fromCallable(() -> userDetailsService.loadUserByUsername(username))
+                  .flatMap(
+                      userDetails -> {
+                        UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    UsernamePasswordAuthenticationToken authentication =
-        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    return jwtUtils.generateAccessToken(authentication);
+                        String accessToken = jwtUtils.generateAccessToken(authentication);
+                        return Mono.just(accessToken);
+                      });
+            });
   }
 
   private Authentication generateAuthentication(String username, String password) {
