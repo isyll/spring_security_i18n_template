@@ -12,19 +12,19 @@ import lombok.Data;
 
 @MappedSuperclass
 @Data
-public abstract class BaseEntity {
+abstract class BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @JsonIgnore
   private UUID id;
 
-  @JsonProperty("public_id")
+  @JsonProperty("id")
   public String getPublicId() {
     return Base62.encode(id);
   }
 
-  @JsonProperty("public_id")
+  @JsonProperty("id")
   public void setPublicId(String publicId) {
     this.id = Base62.decode(publicId);
   }
