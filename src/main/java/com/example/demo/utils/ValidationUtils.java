@@ -4,7 +4,6 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 public class ValidationUtils {
-
   private final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
   public boolean validatePhone(String phone) {

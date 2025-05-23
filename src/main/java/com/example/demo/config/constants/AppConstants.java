@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class AppConstants {
-
   public static final String APP_NAME = "Demo application";
   public static final String AUTHOR = "Ibrahima Sylla";
   public static final String APP_URL = "https://example.com";

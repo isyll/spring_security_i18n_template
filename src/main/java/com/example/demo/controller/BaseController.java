@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 abstract class BaseController {
-
   protected static <T> ResponseEntity<ApiResponse<T>> ok(T data) {
     return new ApiResponse<>(data).build();
   }

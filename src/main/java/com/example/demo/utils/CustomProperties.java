@@ -11,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties("custom")
 @PropertySource("classpath:custom.properties")
 public class CustomProperties {
-
   @Value("${pagination.limit}")
   private int paginationLimit;
 

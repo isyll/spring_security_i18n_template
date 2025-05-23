@@ -1,7 +1,6 @@
 package com.example.demo.utils;
 
 public class StringUtils {
-
   public static String camelToSnakeCase(String camelCaseString) {
     if (camelCaseString == null || camelCaseString.isEmpty()) {
       return camelCaseString;

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.constants.AppConstants;
-import com.example.demo.config.i18n.I18nUtil;
+import com.example.demo.config.i18n.I18nUtils;
 import com.example.demo.dto.response.AppInfo;
 import com.example.demo.dto.response.common.ApiResponse;
 import com.example.demo.dto.response.common.SuccessResponse;
@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Info API", description = "API to get app information.")
 public class AppInfoController extends BaseController {
 
-  private final I18nUtil i18nUtil;
+  private final I18nUtils i18n;
 
-  public AppInfoController(I18nUtil i18nUtil) {
-    this.i18nUtil = i18nUtil;
+  public AppInfoController(I18nUtils i18n) {
+    this.i18n = i18n;
   }
 
   @Operation(summary = "Greeting")
   @GetMapping
   public ResponseEntity<SuccessResponse> greeting() {
-    return ok(i18nUtil.getMessage("message.greeting"));
+    return ok(i18n.getMessage("message.greeting"));
   }
 
   @Operation(

@@ -1,6 +1,6 @@
 package com.example.demo.exceptions;
 
-import com.example.demo.config.i18n.I18nUtil;
+import com.example.demo.config.i18n.I18nUtils;
 import com.example.demo.dto.response.common.ErrorResponse;
 import com.example.demo.dto.response.common.ValidationErrorResponse;
 import com.example.demo.utils.StringUtils;
@@ -24,18 +24,17 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+  private final I18nUtils i18n;
 
-  private final I18nUtil i18nUtil;
-
-  public GlobalExceptionHandler(I18nUtil i18nUtil) {
-    this.i18nUtil = i18nUtil;
+  public GlobalExceptionHandler(I18nUtils i18n) {
+    this.i18n = i18n;
   }
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(
       MethodArgumentNotValidException ex) {
-    String invalidFieldMessage = i18nUtil.getMessage("error.invalid_field_value");
+    String invalidFieldMessage = i18n.getMessage("error.invalid_field_value");
     Map<String, String> errors =
         ex.getFieldErrors().stream()
             .collect(
@@ -65,7 +64,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(AuthorizationDeniedException.class)
   public ResponseEntity<ErrorResponse> handleAuthorizationDeniedException(
       AuthorizationDeniedException ignored) {
-    String message = i18nUtil.getMessage("error.forbidden");
+    String message = i18n.getMessage("error.forbidden");
     return new ErrorResponse(HttpStatus.FORBIDDEN, message).build();
   }
 
@@ -80,7 +79,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MissingServletRequestParameterException.class)
   public ResponseEntity<ErrorResponse> handleMissingServletRequestParameterException(
       MissingServletRequestParameterException ignored) {
-    String message = i18nUtil.getMessage("error.missing_request_parameter");
+    String message = i18n.getMessage("error.missing_request_parameter");
     return new ErrorResponse(HttpStatus.BAD_REQUEST, message).build();
   }
 
@@ -89,7 +88,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
     String message = ex.getMessage();
     if (message == null) {
-      message = i18nUtil.getMessage("error.bad_request");
+      message = i18n.getMessage("error.bad_request");
     }
     return new ErrorResponse(HttpStatus.BAD_REQUEST, message).build();
   }
@@ -98,7 +97,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
   public ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(
       HttpRequestMethodNotSupportedException ignored) {
-    String message = i18nUtil.getMessage("error.method_not_supported");
+    String message = i18n.getMessage("error.method_not_supported");
     return new ErrorResponse(HttpStatus.BAD_REQUEST, message).build();
   }
 
@@ -106,7 +105,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NoResourceFoundException.class)
   public ResponseEntity<ErrorResponse> handleNoResourceFoundException(
       NoResourceFoundException ignored) {
-    String message = i18nUtil.getMessage("error.no_resource_found");
+    String message = i18n.getMessage("error.no_resource_found");
     return new ErrorResponse(HttpStatus.NOT_FOUND, message).build();
   }
 
@@ -114,7 +113,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<ErrorResponse> handleBadCredentialsException(
       BadCredentialsException ignored) {
-    String message = i18nUtil.getMessage("error.bad_credentials");
+    String message = i18n.getMessage("error.bad_credentials");
     return new ErrorResponse(HttpStatus.UNAUTHORIZED, message).build();
   }
 
@@ -122,7 +121,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorResponse> handleException(Exception ex) {
     log.error("Unhandled exception caught", ex);
-    String message = i18nUtil.getMessage("error.an_error_has_occurred");
+    String message = i18n.getMessage("error.an_error_has_occurred");
     return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, message).build();
   }
 }

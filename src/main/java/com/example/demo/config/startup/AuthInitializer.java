@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthInitializer {
-
   @PostConstruct
   public void init() {
     load("Roles", this::loadRoles);

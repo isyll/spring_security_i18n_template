@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class UserLookup {
-
   @Schema(description = "User ID (UUID or Base62-encoded string)", example = "a2b4cdE93F")
   String id;
 

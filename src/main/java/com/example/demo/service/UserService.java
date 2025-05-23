@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.config.i18n.I18nUtil;
+import com.example.demo.config.i18n.I18nUtils;
 import com.example.demo.dto.pagination.PaginationParams;
 import com.example.demo.dto.search.UserLookup;
 import com.example.demo.exceptions.BadRequestException;
@@ -16,15 +16,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final I18nUtil i18nUtil;
+  private final I18nUtils i18n;
 
   public UserService(
-      UserRepository userRepository, I18nUtil i18nUtil, PasswordEncoder passwordEncoder) {
+      UserRepository userRepository, I18nUtils i18n, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
-    this.i18nUtil = i18nUtil;
+    this.i18n = i18n;
     this.passwordEncoder = passwordEncoder;
   }
 
@@ -35,7 +34,7 @@ public class UserService {
   }
 
   private ResourceNotFoundException notFound() {
-    return new ResourceNotFoundException(i18nUtil.getMessage("error.user_not_found"));
+    return new ResourceNotFoundException(i18n.getMessage("error.user_not_found"));
   }
 
   public User lookupUser(UserLookup lookup) {
@@ -56,7 +55,7 @@ public class UserService {
           .orElseThrow(this::notFound);
     }
 
-    throw new BadRequestException(i18nUtil.getMessage("error.no_unique_identifier_given"));
+    throw new BadRequestException(i18n.getMessage("error.no_unique_identifier_given"));
   }
 
   public Page<User> findUsers(PaginationParams params) {

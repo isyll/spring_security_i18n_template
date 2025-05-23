@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 abstract class BaseResponse {
-
   private final ZonedDateTime timestamp;
   private final String path;
   private final boolean success;

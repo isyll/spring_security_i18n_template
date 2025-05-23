@@ -1,6 +1,6 @@
 package com.example.demo.config.security.jwt;
 
-import com.example.demo.config.i18n.I18nUtil;
+import com.example.demo.config.i18n.I18nUtils;
 import com.example.demo.utils.DateTimeUtils;
 import com.example.demo.utils.RequestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
-  @Autowired I18nUtil i18nUtil;
+  @Autowired I18nUtils i18n;
 
   @Override
   public void commence(
@@ -36,7 +36,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     Map<String, Object> body = new HashMap<>();
     body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
     body.put("success", false);
-    body.put("message", i18nUtil.getMessage("error.unauthorized"));
+    body.put("message", i18n.getMessage("error.unauthorized"));
     body.put("timestamp", DateTimeUtils.getCurrentTimestamp().toString());
     body.put("path", RequestUtils.getCurrentPath());
 

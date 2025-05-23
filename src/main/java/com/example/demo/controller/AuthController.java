@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.mapper.UserMapper;
-import com.example.demo.dto.request.LoginRequest;
+import com.example.demo.dto.request.EmailPasswordLoginRequest;
 import com.example.demo.dto.request.RefreshTokenRequest;
 import com.example.demo.dto.request.SignupRequest;
-import com.example.demo.dto.response.common.ApiResponse;
 import com.example.demo.dto.response.JwtResponse;
+import com.example.demo.dto.response.common.ApiResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
@@ -36,7 +36,8 @@ public class AuthController extends BaseController {
 
   @PostMapping("/login")
   @Operation(summary = "Login", description = "Log in with email and password.")
-  public ResponseEntity<ApiResponse<JwtResponse>> login(@RequestBody @Valid LoginRequest request) {
+  public ResponseEntity<ApiResponse<JwtResponse>> login(
+      @RequestBody @Valid EmailPasswordLoginRequest request) {
     return ok(authService.authenticate(request));
   }
 
@@ -44,15 +45,13 @@ public class AuthController extends BaseController {
   @Operation(summary = "Sign up", description = "Create new account.")
   public ResponseEntity<ApiResponse<User>> signup(@RequestBody @Valid SignupRequest request) {
     User createdUser = userService.registerUser(userMapper.toUser(request));
-    HttpStatus status = HttpStatus.CREATED;
-    return ok(createdUser, status);
+    return ok(createdUser, HttpStatus.CREATED);
   }
 
-  @PostMapping("/refresh-token")
+  @PostMapping("/refresh")
   @Operation(summary = "Refresh token", description = "Get new access token from refresh token.")
   public ResponseEntity<ApiResponse<JwtResponse>> refreshToken(
       @RequestBody @Valid RefreshTokenRequest request) {
-    String accessToken = authService.authenticateFromRefreshToken(request);
-    return ok(new JwtResponse(accessToken, request.getRefreshToken()));
+    return ok(authService.authenticateFromRefreshToken(request));
   }
 }

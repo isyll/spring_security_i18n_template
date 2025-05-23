@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
-
+public class EmailPasswordLoginRequest {
   @NotBlank(message = "{validation.email_cannot_be_empty}")
   @NotNull(message = "{validation.email_is_mandatory}")
   private String email;

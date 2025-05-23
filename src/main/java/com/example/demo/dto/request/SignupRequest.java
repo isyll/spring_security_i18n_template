@@ -9,7 +9,6 @@ import lombok.Data;
 
 @Data
 public class SignupRequest {
-
   @NotBlank(message = "{validation.password_cannot_be_empty}")
   @NotNull(message = "{validation.password_is_mandatory}")
   @JsonProperty(access = Access.WRITE_ONLY)

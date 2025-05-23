@@ -9,7 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class JwtResponse {
-
   @JsonProperty("access_token")
   private String accessToken;
 

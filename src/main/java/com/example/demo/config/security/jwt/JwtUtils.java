@@ -14,16 +14,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 public class JwtUtils {
+  private final CustomProperties customProperties;
 
-  @Autowired CustomProperties customProperties;
+  public JwtUtils(CustomProperties customProperties) {
+    this.customProperties = customProperties;
+  }
 
   public String generateAccessToken(Authentication authentication) {
     UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -37,7 +38,7 @@ public class JwtUtils {
         .claim("phone", userPrincipal.getPhone())
         .subject(userPrincipal.getUsername())
         .issuedAt(new Date())
-        .expiration(new Date((new Date()).getTime() + customProperties.getJwtExpirationMs()))
+        .expiration(new Date(new Date().getTime() + customProperties.getJwtExpirationMs()))
         .signWith(key(), Jwts.SIG.HS256)
         .compact();
   }
@@ -56,10 +57,6 @@ public class JwtUtils {
 
   public String getUsernameFromJwtToken(String token) {
     return payload(token).getSubject();
-  }
-
-  public Long getIdFromJwtToken(String token) {
-    return payload(token).get("id", Long.class);
   }
 
   public boolean validateJwtToken(String token) {
@@ -82,11 +79,6 @@ public class JwtUtils {
   public boolean checkTokenType(String token, String type) {
     Claims claims = payload(token);
     return type.equals(claims.get("type", String.class));
-  }
-
-  public UserDetailsImpl getUserDetails() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    return (UserDetailsImpl) auth.getPrincipal();
   }
 
   private Claims payload(String token) {

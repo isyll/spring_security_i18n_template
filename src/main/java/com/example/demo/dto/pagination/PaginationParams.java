@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 
 @Data
 public class PaginationParams {
-
   @Min(1)
   @Schema(
       description = "Page number to retrieve (starting from 1)",

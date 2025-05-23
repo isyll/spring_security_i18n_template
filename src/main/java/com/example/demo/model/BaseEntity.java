@@ -13,7 +13,6 @@ import lombok.Data;
 @MappedSuperclass
 @Data
 abstract class BaseEntity {
-
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   @JsonIgnore

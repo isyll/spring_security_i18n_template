@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfiguration {
-
   private static final String SWAGGER_API_VERSION = "1.0";
   private static final String title = "Demo application";
   private static final String description = "REST API for Demo application.";

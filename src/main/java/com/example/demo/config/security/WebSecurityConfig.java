@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
-
   @Autowired private UserDetailsServiceImpl userDetailsService;
   @Autowired private AuthEntryPointJwt unauthorizedHandler;
 

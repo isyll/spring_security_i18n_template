@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AppInfo {
-
   private String name;
   private String version;
   private String description;
