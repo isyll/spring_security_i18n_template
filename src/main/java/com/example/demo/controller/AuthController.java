@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Authentication", description = "API to manage authentication.")
 public class AuthController extends BaseController {
-
   private final AuthService authService;
   private final UserService userService;
   private final UserMapper userMapper;

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @Tag(name = "User API", description = "API to manage users.")
 public class UserController extends BaseController {
-
   private final UserService userService;
 
   public UserController(UserService userService) {

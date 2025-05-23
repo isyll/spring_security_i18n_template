@@ -23,6 +23,10 @@ abstract class BaseController {
     return new ApiResponse<>(data, status).build();
   }
 
+  protected static <T> ResponseEntity<ApiResponse<T>> ok(T data, String message) {
+    return new ApiResponse<>(data, message).build();
+  }
+
   protected static ResponseEntity<SuccessResponse> ok(String message) {
     return new SuccessResponse(message).build();
   }

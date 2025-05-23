@@ -4,7 +4,6 @@ import com.example.demo.config.constants.AppConstants;
 import com.example.demo.config.i18n.I18nUtils;
 import com.example.demo.dto.response.AppInfo;
 import com.example.demo.dto.response.common.ApiResponse;
-import com.example.demo.dto.response.common.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Locale;
@@ -17,17 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 @Tag(name = "Info API", description = "API to get app information.")
 public class AppInfoController extends BaseController {
-
   private final I18nUtils i18n;
 
   public AppInfoController(I18nUtils i18n) {
     this.i18n = i18n;
-  }
-
-  @Operation(summary = "Greeting")
-  @GetMapping
-  public ResponseEntity<SuccessResponse> greeting() {
-    return ok(i18n.getMessage("message.greeting"));
   }
 
   @Operation(
@@ -35,11 +27,13 @@ public class AppInfoController extends BaseController {
       description = "This endpoint provides application information.")
   @GetMapping("/info")
   public ResponseEntity<ApiResponse<AppInfo>> getAppInfo() {
-    return ok(
+    String message = i18n.getMessage("message.greeting");
+    AppInfo appInfo =
         new AppInfo(
             AppConstants.APP_NAME,
             AppConstants.APP_VERSION,
             AppConstants.APP_DESCRIPTION,
-            AppConstants.SUPPORTED_LOCALES.stream().map(Locale::toString).toList()));
+            AppConstants.SUPPORTED_LOCALES.stream().map(Locale::toString).toList());
+    return ok(appInfo, message);
   }
 }

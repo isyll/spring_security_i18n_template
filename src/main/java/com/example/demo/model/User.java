@@ -48,7 +48,6 @@ import org.hibernate.annotations.SQLRestriction;
   "updated_at"
 })
 public class User extends BaseEntity {
-
   @JsonIgnore
   @ManyToMany
   @JoinTable(
