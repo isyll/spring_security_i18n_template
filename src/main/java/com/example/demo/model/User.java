@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.example.demo.utils.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,10 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +33,7 @@ import org.hibernate.annotations.SQLRestriction;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({
-  "public_id",
+  "id",
   "email",
   "phone",
   "first_name",
@@ -81,24 +77,6 @@ public class User extends BaseEntity {
   @JsonIgnore
   @Enumerated(EnumType.STRING)
   private AccountStatus status = AccountStatus.ACTIVE;
-
-  @JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
-  @Column(name = "created_at", nullable = false)
-  private ZonedDateTime createdAt;
-
-  @JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
-  @Column(name = "updated_at", nullable = false)
-  private ZonedDateTime updatedAt;
-
-  @PrePersist
-  public void onCreate() {
-    createdAt = updatedAt = DateTimeUtils.getCurrentTimestamp();
-  }
-
-  @PreUpdate
-  public void onUpdate() {
-    updatedAt = DateTimeUtils.getCurrentTimestamp();
-  }
 
   @JsonGetter("roles")
   public List<String> getRoleName() {

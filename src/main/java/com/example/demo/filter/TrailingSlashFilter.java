@@ -16,23 +16,28 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TrailingSlashFilter extends OncePerRequestFilter {
-
   @Override
   protected void doFilterInternal(
       @Nonnull HttpServletRequest request,
       @Nonnull HttpServletResponse response,
       @Nonnull FilterChain filterChain)
       throws ServletException, IOException {
-    String requestUri = request.getRequestURI();
-    String contextPath = request.getContextPath() + "/";
+    String uri = request.getRequestURI();
+    String context = request.getContextPath();
+    String normalizedContext = context.endsWith("/") ? context : context + "/";
 
-    if (!requestUri.equals(contextPath) && requestUri.endsWith("/")) {
-      String newUrl = requestUri.substring(0, requestUri.length() - 1);
+    if (!uri.equals(normalizedContext) && uri.endsWith("/")) {
+      String newUrl = uri.substring(0, uri.length() - 1);
+      String query = request.getQueryString();
+
+      if (query != null && !query.isEmpty()) {
+        newUrl += "?" + query;
+      }
+
       response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
       response.setHeader(HttpHeaders.LOCATION, newUrl);
-      return;
+    } else {
+      filterChain.doFilter(request, response);
     }
-
-    filterChain.doFilter(request, response);
   }
 }
