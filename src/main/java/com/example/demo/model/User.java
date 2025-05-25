@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.example.demo.model.base.AuditableEntity;
+import com.example.demo.utils.Base62;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,13 +10,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,9 +34,9 @@ import org.hibernate.annotations.SQLRestriction;
 @Data
 @Entity
 @DynamicUpdate
+@SQLDelete(sql = "UPDATE users SET deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("deleted_at IS NULL")
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET status = 'DELETED' WHERE id=?")
-@SQLRestriction("status <> 'DELETED'")
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({
@@ -43,7 +50,12 @@ import org.hibernate.annotations.SQLRestriction;
   "created_at",
   "updated_at"
 })
-public class User extends BaseEntity {
+public class User extends AuditableEntity {
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @JsonIgnore
+  private UUID id;
+
   @JsonIgnore
   @ManyToMany
   @JoinTable(
@@ -75,8 +87,24 @@ public class User extends BaseEntity {
   private String photoUrl;
 
   @JsonIgnore
+  @Column(nullable = false, length = 20)
   @Enumerated(EnumType.STRING)
   private AccountStatus status = AccountStatus.ACTIVE;
+
+  @JsonIgnore
+  @JsonProperty(value = "deleted_at")
+  @Column(name = "deleted_at")
+  private ZonedDateTime deletedAt;
+
+  @JsonProperty("id")
+  public String getPublicId() {
+    return Base62.encode(id);
+  }
+
+  @JsonProperty("id")
+  public void setPublicId(String publicId) {
+    this.id = Base62.decode(publicId);
+  }
 
   @JsonGetter("roles")
   public List<String> getRoleName() {
