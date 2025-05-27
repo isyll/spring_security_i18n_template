@@ -2,8 +2,8 @@ package com.example.demo.config.security;
 
 import com.example.demo.config.security.jwt.AuthEntryPointJwt;
 import com.example.demo.config.security.jwt.AuthTokenFilter;
+import com.example.demo.config.security.jwt.JwtUtils;
 import com.example.demo.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -27,8 +27,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
-  @Autowired private UserDetailsServiceImpl userDetailsService;
-  @Autowired private AuthEntryPointJwt unauthorizedHandler;
+  private final UserDetailsServiceImpl userDetailsService;
+  private final AuthEntryPointJwt unauthorizedHandler;
+  private final JwtUtils jwtUtils;
+
+  public WebSecurityConfig(
+      UserDetailsServiceImpl userDetailsService,
+      AuthEntryPointJwt unauthorizedHandler,
+      JwtUtils jwtUtils) {
+    this.userDetailsService = userDetailsService;
+    this.unauthorizedHandler = unauthorizedHandler;
+    this.jwtUtils = jwtUtils;
+  }
 
   @Bean
   static RoleHierarchy roleHierarchy() {
@@ -46,16 +56,13 @@ public class WebSecurityConfig {
 
   @Bean
   AuthTokenFilter authenticationJwtTokenFilter() {
-    return new AuthTokenFilter();
+    return new AuthTokenFilter(jwtUtils, userDetailsService);
   }
 
   @Bean
   DaoAuthenticationProvider authenticationProvider() {
-    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-    authProvider.setUserDetailsService(userDetailsService);
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
     authProvider.setPasswordEncoder(passwordEncoder());
-
     return authProvider;
   }
 

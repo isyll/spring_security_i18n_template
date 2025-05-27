@@ -43,8 +43,8 @@ public class AuthController extends BaseController {
   @PostMapping("/signup")
   @Operation(summary = "Sign up", description = "Create new account.")
   public ResponseEntity<ApiResponse<User>> signup(@RequestBody @Valid SignupRequest request) {
-    User createdUser = userService.registerUser(userMapper.toUser(request));
-    return ok(createdUser, HttpStatus.CREATED);
+    User user = userService.registerUser(userMapper.toUser(request));
+    return ok(user, HttpStatus.CREATED);
   }
 
   @PostMapping("/refresh")

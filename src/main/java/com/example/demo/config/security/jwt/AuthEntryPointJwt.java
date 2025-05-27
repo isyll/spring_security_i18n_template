@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -19,8 +18,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
+  private final I18nUtils i18n;
 
-  @Autowired I18nUtils i18n;
+  public AuthEntryPointJwt(I18nUtils i18n) {
+    this.i18n = i18n;
+  }
 
   @Override
   public void commence(

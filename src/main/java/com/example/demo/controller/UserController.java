@@ -52,6 +52,6 @@ public class UserController extends BaseController {
   @GetMapping("/lookup")
   // @Secured({"SHOW_USER_DATA"})
   public ResponseEntity<ApiResponse<User>> getUserData(@ParameterObject UserLookup lookup) {
-    return ok(userService.lookupUser(lookup));
+    return ok(userService.lookup(lookup));
   }
 }

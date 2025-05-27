@@ -11,20 +11,6 @@ import org.springframework.stereotype.Component;
 public class AuthInitializer {
   @PostConstruct
   public void init() {
-    load("Roles", this::loadRoles);
-    load("Permissions", this::loadPermissions);
+    log.info("Authentication information initialized successfully.");
   }
-
-  private void load(String name, Runnable task) {
-    try {
-      task.run();
-      log.info("{} initialized successfully", name);
-    } catch (Exception e) {
-      log.error("Error initializing {}", name, e);
-    }
-  }
-
-  private void loadRoles() {}
-
-  private void loadPermissions() {}
 }

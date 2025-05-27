@@ -12,7 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class CORSFilter extends OncePerRequestFilter {
-
   @Override
   protected void doFilterInternal(
       @Nonnull HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

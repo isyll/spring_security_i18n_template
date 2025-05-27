@@ -37,21 +37,20 @@ public class UserService {
     return new ResourceNotFoundException(i18n.getMessage("error.user_not_found"));
   }
 
-  public User lookupUser(UserLookup lookup) {
-    if (lookup.getId() != null) {
-      UUID id =
-          isUuid(lookup.getId()) ? UUID.fromString(lookup.getId()) : Base62.decode(lookup.getId());
+  public User lookup(UserLookup lookup) {
+    if (lookup.id() != null) {
+      UUID id = isUuid(lookup.id()) ? UUID.fromString(lookup.id()) : Base62.decode(lookup.id());
 
       return userRepository.findById(id).orElseThrow(this::notFound);
     }
 
-    if (lookup.getEmail() != null) {
-      return Optional.ofNullable(userRepository.findByEmail(lookup.getEmail()))
+    if (lookup.email() != null) {
+      return Optional.ofNullable(userRepository.findByEmail(lookup.email()))
           .orElseThrow(this::notFound);
     }
 
-    if (lookup.getPhone() != null) {
-      return Optional.ofNullable(userRepository.findByPhone(lookup.getPhone()))
+    if (lookup.phone() != null) {
+      return Optional.ofNullable(userRepository.findByPhone(lookup.phone()))
           .orElseThrow(this::notFound);
     }
 
@@ -59,7 +58,7 @@ public class UserService {
   }
 
   public Page<User> findUsers(PaginationParams params) {
-    return userRepository.findAll(params.getPageable());
+    return userRepository.findAll(params.toPageable());
   }
 
   public User registerUser(User user) {
