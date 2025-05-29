@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
@@ -23,7 +22,6 @@ import org.springframework.http.ResponseEntity;
   "path"
 })
 public class PaginatedResponse<T> extends BaseResponse {
-
   List<T> content;
 
   @JsonProperty("total_elements")
@@ -44,9 +42,5 @@ public class PaginatedResponse<T> extends BaseResponse {
     this.totalPages = data.getTotalPages();
     this.currentPage = data.getNumber() + 1;
     this.size = this.content.size();
-  }
-
-  public ResponseEntity<PaginatedResponse<T>> build() {
-    return new ResponseEntity<>(this, HttpStatus.valueOf(getStatus()));
   }
 }

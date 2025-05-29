@@ -14,7 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class CORSFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(
-      @Nonnull HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      @Nonnull HttpServletRequest request,
+      @Nonnull HttpServletResponse response,
+      @Nonnull FilterChain filterChain)
       throws ServletException, IOException {
     response.setHeader("Server", AppConstants.APP_NAME);
     response.setHeader("X-App-Name", AppConstants.APP_NAME);

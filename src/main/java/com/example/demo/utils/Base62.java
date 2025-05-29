@@ -17,9 +17,9 @@ public class Base62 {
     BigInteger bi = new BigInteger(1, data); // Unsigned
     StringBuilder sb = new StringBuilder();
     while (bi.compareTo(BigInteger.ZERO) > 0) {
-      BigInteger[] divmod = bi.divideAndRemainder(BigInteger.valueOf(62));
-      sb.append(BASE62.charAt(divmod[1].intValue()));
-      bi = divmod[0];
+      BigInteger[] divMod = bi.divideAndRemainder(BigInteger.valueOf(62));
+      sb.append(BASE62.charAt(divMod[1].intValue()));
+      bi = divMod[0];
     }
     return sb.reverse().toString();
   }

@@ -32,8 +32,7 @@ public class AuthService {
   }
 
   public JwtResponse authenticate(EmailPasswordLoginRequest request) {
-    Authentication authentication =
-        generateAuthentication(request.getEmail(), request.getPassword());
+    Authentication authentication = generateAuthentication(request.email(), request.password());
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     return new JwtResponse(
@@ -42,7 +41,7 @@ public class AuthService {
   }
 
   public JwtResponse authenticateFromRefreshToken(RefreshTokenRequest request) {
-    String refreshToken = request.getRefreshToken();
+    String refreshToken = request.refreshToken();
 
     if (!jwtUtils.validateJwtToken(refreshToken)) {
       String message = i18n.getMessage("error.invalid_token");

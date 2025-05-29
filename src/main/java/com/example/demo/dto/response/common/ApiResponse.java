@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
@@ -31,9 +30,5 @@ public class ApiResponse<T> extends BaseResponse {
     super(HttpStatus.OK);
     this.data = data;
     this.message = null;
-  }
-
-  public ResponseEntity<ApiResponse<T>> build() {
-    return new ResponseEntity<>(this, HttpStatus.valueOf(getStatus()));
   }
 }
