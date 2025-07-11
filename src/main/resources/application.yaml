@@ -1,0 +1,9 @@
+spring:
+  application:
+    group: com.yaatal
+  profiles:
+    active: ${APP_ENV}
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 30MB

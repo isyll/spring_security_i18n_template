@@ -1,17 +1,20 @@
 package com.example.demo.utils;
 
 import java.security.SecureRandom;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class PasswordGenerator {
-  private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
-  private static final String DIGITS = "0123456789";
-  private static final String SYMBOLS = "!@#$%^&*-_+=?/";
 
-  private static final String ALL_CHARS = UPPERCASE + LOWERCASE + DIGITS + SYMBOLS;
-  private static final SecureRandom RANDOM = new SecureRandom();
+  private final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  private final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+  private final String DIGITS = "0123456789";
+  private final String SYMBOLS = "!@#$%&*-_+=?/";
 
-  public static String generatePassword(int length) {
+  private final String ALL_CHARS = UPPERCASE + LOWERCASE + DIGITS + SYMBOLS;
+  private final SecureRandom RANDOM = new SecureRandom();
+
+  public String generatePassword(int length) {
     StringBuilder password = new StringBuilder();
     if (length < 4) {
       throw new IllegalArgumentException("Cannot generate password less than 4 characters.");
@@ -29,7 +32,7 @@ public class PasswordGenerator {
     return shuffleString(password.toString());
   }
 
-  private static String shuffleString(String input) {
+  private String shuffleString(String input) {
     char[] array = input.toCharArray();
     for (int i = array.length - 1; i > 0; i--) {
       int index = RANDOM.nextInt(i + 1);

@@ -14,7 +14,8 @@ import java.lang.annotation.Target;
 @Documented
 @Constraint(validatedBy = E164PhoneValidator.class)
 public @interface E164PhoneValidation {
-  String message() default "{validation.phone_is_invalid}";
+
+  String message() default "{validation.phone_number_is_invalid}";
 
   Class<?>[] groups() default {};
 

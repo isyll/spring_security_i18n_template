@@ -1,11 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.config.i18n.I18nUtils;
-import com.example.demo.config.security.jwt.JwtUtils;
-import com.example.demo.dto.request.EmailPasswordLoginRequest;
-import com.example.demo.dto.request.RefreshTokenRequest;
-import com.example.demo.dto.response.JwtResponse;
+import com.example.demo.dto.auth.LoginRequest;
+import com.example.demo.dto.auth.RefreshTokenRequest;
+import com.example.demo.dto.response.TokenPair;
 import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.exceptions.UnauthorizedException;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.JwtUtils;
+import com.example.demo.utils.Translator;
+import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,61 +19,70 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
-  private final I18nUtils i18n;
+@RequiredArgsConstructor
+public class AuthService extends BaseService {
+
+  private final UserRepository userRepository;
+  private final Translator translator;
   private final JwtUtils jwtUtils;
   private final AuthenticationManager authenticationManager;
   private final UserDetailsServiceImpl userDetailsService;
+  private final JwtBlacklistService jwtBlacklistService;
 
-  public AuthService(
-      JwtUtils jwtUtils,
-      I18nUtils i18n,
-      AuthenticationManager authenticationManager,
-      UserDetailsServiceImpl userDetailsService) {
-    this.jwtUtils = jwtUtils;
-    this.i18n = i18n;
-    this.authenticationManager = authenticationManager;
-    this.userDetailsService = userDetailsService;
+  public TokenPair authenticate(LoginRequest request) {
+    Authentication authentication = authenticateUser(request.identifier(), request.password());
+    updateLastLoginTimestamp();
+
+    return generateTokenPair(authentication);
   }
 
-  public JwtResponse authenticate(EmailPasswordLoginRequest request) {
-    Authentication authentication = generateAuthentication(request.email(), request.password());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    return new JwtResponse(
-        jwtUtils.generateAccessToken(authentication),
-        jwtUtils.generateRefreshToken(authentication));
-  }
-
-  public JwtResponse authenticateFromRefreshToken(RefreshTokenRequest request) {
+  public TokenPair authenticateFromRefreshToken(RefreshTokenRequest request) {
     String refreshToken = request.refreshToken();
 
-    if (!jwtUtils.validateJwtToken(refreshToken)) {
-      String message = i18n.getMessage("error.invalid_token");
-      throw new BadRequestException(message);
-    }
-
-    if (!jwtUtils.checkTokenType(refreshToken, "refresh")) {
-      String message = i18n.getMessage("error.bad_refresh_token");
-      throw new BadRequestException(message);
+    if (!jwtUtils.validateRefreshToken(refreshToken)) {
+      throw new BadRequestException(translator.t("error.invalid_token"));
     }
 
     String username = jwtUtils.getUsernameFromJwtToken(refreshToken);
     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-    UsernamePasswordAuthenticationToken authentication =
+    Authentication authentication =
         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-    SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    return new JwtResponse(jwtUtils.generateAccessToken(authentication), refreshToken);
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    updateLastLoginTimestamp();
+
+    return new TokenPair(
+        jwtUtils.generateAccessToken(authentication),
+        refreshToken,
+        currentUser().mustChangePassword());
   }
 
-  private Authentication generateAuthentication(String username, String password) {
-    UsernamePasswordAuthenticationToken authToken =
-        new UsernamePasswordAuthenticationToken(username, password);
-    Authentication authentication = authenticationManager.authenticate(authToken);
+  public void blacklistToken(String token) {
+    if (!jwtUtils.validateJwtToken(token)) {
+      throw new UnauthorizedException(translator.t("message.logout.invalid"));
+    }
+    long remainingMs = jwtUtils.getExpirationDuration(token);
+    jwtBlacklistService.blacklistToken(token, remainingMs);
+  }
 
+  private Authentication authenticateUser(String username, String password) {
+    var authToken = new UsernamePasswordAuthenticationToken(username, password);
+    var authentication = authenticationManager.authenticate(authToken);
     SecurityContextHolder.getContext().setAuthentication(authentication);
     return authentication;
+  }
+
+  private TokenPair generateTokenPair(Authentication authentication) {
+    return new TokenPair(
+        jwtUtils.generateAccessToken(authentication),
+        jwtUtils.generateRefreshToken(authentication),
+        currentUser().mustChangePassword());
+  }
+
+  private void updateLastLoginTimestamp() {
+    User user = currentUser();
+    user.setLastLoginAt(LocalDateTime.now());
+    userRepository.save(user);
   }
 }

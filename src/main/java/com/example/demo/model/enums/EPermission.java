@@ -1,0 +1,58 @@
+package com.example.demo.model.enums;
+
+public enum EPermission {
+  // Users
+  SHOW_USERS,
+  CREATE_USER,
+  UPDATE_USER,
+  DELETE_USER,
+
+  // Students
+  VIEW_STUDENT,
+  CREATE_STUDENT,
+  UPDATE_STUDENT,
+  DELETE_STUDENT,
+
+  // Teachers
+  VIEW_TEACHER,
+  CREATE_TEACHER,
+  UPDATE_TEACHER,
+  DELETE_TEACHER,
+
+  // Staff members
+  VIEW_STAFF,
+  CREATE_STAFF,
+  UPDATE_STAFF,
+  DELETE_STAFF,
+
+  // Classes
+  VIEW_CLASSES,
+  MANAGE_CLASSES,
+
+  // Grades
+  VIEW_GRADES,
+  MANAGE_GRADES,
+
+  // Academic Year
+  VIEW_ACADEMIC_YEAR,
+  MANAGE_ACADEMIC_YEAR,
+
+  // Settings
+  VIEW_SETTINGS,
+  UPDATE_SETTINGS,
+
+  // Attendance
+  VIEW_ATTENDANCE,
+  MANAGE_ATTENDANCE,
+
+  // Exams & Grades
+  VIEW_EXAMS,
+  MANAGE_EXAMS,
+  VIEW_REPORTS,
+
+  // Permissions & Roles
+  VIEW_ROLES,
+  MANAGE_ROLES,
+  VIEW_PERMISSIONS,
+  MANAGE_PERMISSIONS
+}

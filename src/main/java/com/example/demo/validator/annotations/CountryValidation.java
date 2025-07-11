@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Documented
 @Constraint(validatedBy = CountryValidator.class)
 public @interface CountryValidation {
+
   String message() default "{validation.country_code_is_invalid}";
 
   Class<?>[] groups() default {};

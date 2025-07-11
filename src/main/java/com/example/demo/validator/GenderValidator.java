@@ -1,6 +1,6 @@
 package com.example.demo.validator;
 
-import com.example.demo.model.Gender;
+import com.example.demo.model.enums.Gender;
 import com.example.demo.validator.annotations.GenderValidation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Unhandled Exception</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #d9534f;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .stacktrace {
+      background: #f5f5f5;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 14px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+<h2>🚨 Unhandled Exception Alert</h2>
+
+<p><span class="label">Type:</span> <span th:text="${exceptionType}"></span></p>
+<p><span class="label">Message:</span> <span th:text="${exceptionMessage}"></span></p>
+<p><span class="label">Cause:</span> <span th:text="${exceptionCause}"></span></p>
+<p><span class="label">Timestamp:</span> <span th:text="${timestamp}"></span></p>
+
+<h3>Stack Trace</h3>
+<div class="stacktrace" th:text="${stackTrace}"></div>
+</body>
+</html>

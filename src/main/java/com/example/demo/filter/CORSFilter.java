@@ -1,6 +1,6 @@
 package com.example.demo.filter;
 
-import com.example.demo.config.constants.AppConstants;
+import com.example.demo.constants.AppMetadata;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -11,17 +11,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
-public class CORSFilter extends OncePerRequestFilter {
+public class CorsFilter extends OncePerRequestFilter {
+
   @Override
   protected void doFilterInternal(
       @Nonnull HttpServletRequest request,
       @Nonnull HttpServletResponse response,
       @Nonnull FilterChain filterChain)
       throws ServletException, IOException {
-    response.setHeader("Server", AppConstants.APP_NAME);
-    response.setHeader("X-App-Name", AppConstants.APP_NAME);
-    response.setHeader("X-App-Version", AppConstants.APP_VERSION);
-    response.setHeader("X-App-Developer", AppConstants.AUTHOR);
+    response.setHeader("Server", AppMetadata.APP_NAME);
+    response.setHeader("X-App-Name", AppMetadata.APP_NAME);
+    response.setHeader("X-App-Version", AppMetadata.APP_VERSION);
+    response.setHeader("X-App-Developer", AppMetadata.AUTHOR);
 
     response.addHeader("Access-Control-Allow-Origin", "*");
     response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");

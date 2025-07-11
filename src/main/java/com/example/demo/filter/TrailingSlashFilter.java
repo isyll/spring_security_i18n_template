@@ -11,11 +11,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TrailingSlashFilter extends OncePerRequestFilter {
+
   @Override
   protected void doFilterInternal(
       @Nonnull HttpServletRequest request,
@@ -30,7 +32,7 @@ public class TrailingSlashFilter extends OncePerRequestFilter {
       String newUrl = uri.substring(0, uri.length() - 1);
       String query = request.getQueryString();
 
-      if (query != null && !query.isEmpty()) {
+      if (StringUtils.hasText(query)) {
         newUrl += "?" + query;
       }
 

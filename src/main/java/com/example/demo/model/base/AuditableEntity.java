@@ -2,22 +2,30 @@ package com.example.demo.model.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import java.time.ZonedDateTime;
-import lombok.Data;
+import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @MappedSuperclass
-@Data
+@EntityListeners(AuditingEntityListener.class)
 public abstract class AuditableEntity {
+
   @CreatedDate
-  @JsonProperty("created_at")
-  @Column(name = "created_at", updatable = false)
-  private ZonedDateTime createdAt;
+  @JsonProperty(value = "created_at", access = JsonProperty.Access.READ_ONLY)
+  @Column(name = "created_at", updatable = false, nullable = false)
+  protected LocalDateTime createdAt;
 
   @LastModifiedDate
-  @JsonProperty("updated_at")
-  @Column(name = "updated_at")
-  private ZonedDateTime updatedAt;
+  @JsonProperty(value = "updated_at", access = JsonProperty.Access.READ_ONLY)
+  @Column(name = "updated_at", nullable = false)
+  protected LocalDateTime updatedAt;
 }

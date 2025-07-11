@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Documented
 @Constraint(validatedBy = GenderValidator.class)
 public @interface GenderValidation {
+
   String message() default "{validation.gender_is_invalid}";
 
   Class<?>[] groups() default {};

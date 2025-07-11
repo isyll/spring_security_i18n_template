@@ -2,16 +2,19 @@ package com.example.demo.utils;
 
 import java.util.Locale;
 import java.util.Set;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class IsoUtils {
-  private static final Set<String> ISO_LANGUAGES = Set.of(Locale.getISOLanguages());
-  private static final Set<String> ISO_COUNTRIES = Set.of(Locale.getISOCountries());
 
-  public static boolean isValidISOLanguage(String s) {
+  private final Set<String> ISO_LANGUAGES = Set.of(Locale.getISOLanguages());
+  private final Set<String> ISO_COUNTRIES = Set.of(Locale.getISOCountries());
+
+  public boolean isValidISOLanguage(String s) {
     return ISO_LANGUAGES.contains(s);
   }
 
-  public static boolean isValidISOCountry(String s) {
+  public boolean isValidISOCountry(String s) {
     return ISO_COUNTRIES.contains(s);
   }
 }

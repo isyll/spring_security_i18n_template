@@ -4,28 +4,35 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Base62 {
-  private static final String BASE62 =
-      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-  public static String encode(UUID uuid) {
+  private final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  private final int BASE = ALPHABET.length();
+
+  public boolean isInvalidBase62Uuid(String input) {
+    return input == null || input.length() != 22 || !input.matches("^[A-Za-z0-9]+$");
+  }
+
+  public String encode(UUID uuid) {
     return encode(toBytes(uuid));
   }
 
-  public static String encode(byte[] data) {
+  public String encode(byte[] data) {
     BigInteger bi = new BigInteger(1, data); // Unsigned
     StringBuilder sb = new StringBuilder();
     while (bi.compareTo(BigInteger.ZERO) > 0) {
-      BigInteger[] divMod = bi.divideAndRemainder(BigInteger.valueOf(62));
-      sb.append(BASE62.charAt(divMod[1].intValue()));
+      BigInteger[] divMod = bi.divideAndRemainder(BigInteger.valueOf(BASE));
+      sb.append(ALPHABET.charAt(divMod[1].intValue()));
       bi = divMod[0];
     }
     return sb.reverse().toString();
   }
 
-  public static UUID decode(String base62) {
-    byte[] bytes = decodeToBytes(base62);
+  public UUID decodeUuid(String encoded) {
+    byte[] bytes = decodeToBytes(encoded);
     return fromBytes(bytes);
   }
 
@@ -43,12 +50,14 @@ public class Base62 {
     return new UUID(high, low);
   }
 
-  private static byte[] decodeToBytes(String base62) {
+  private static byte[] decodeToBytes(String encoded) {
     BigInteger bi = BigInteger.ZERO;
-    for (char c : base62.toCharArray()) {
-      int index = BASE62.indexOf(c);
-      if (index == -1) throw new IllegalArgumentException("Invalid character in base62: " + c);
-      bi = bi.multiply(BigInteger.valueOf(62)).add(BigInteger.valueOf(index));
+    for (char c : encoded.toCharArray()) {
+      int index = ALPHABET.indexOf(c);
+      if (index == -1) {
+        throw new IllegalArgumentException("Invalid character in base62: " + c);
+      }
+      bi = bi.multiply(BigInteger.valueOf(BASE)).add(BigInteger.valueOf(index));
     }
 
     byte[] raw = bi.toByteArray();
@@ -64,5 +73,12 @@ public class Base62 {
       // Remove extra leading byte(s) if present
       return Arrays.copyOfRange(raw, raw.length - 16, raw.length);
     }
+  }
+
+  public UUID parseOrThrow(String encoded) {
+    if (Base62.isInvalidBase62Uuid(encoded)) {
+      throw new IllegalArgumentException();
+    }
+    return decodeUuid(encoded);
   }
 }
