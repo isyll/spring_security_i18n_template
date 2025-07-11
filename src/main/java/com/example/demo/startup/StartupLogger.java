@@ -13,7 +13,7 @@ public class StartupLogger {
   @Profile("dev")
   public CommandLineRunner logStartupInfo(Environment env) {
     return args -> {
-      System.out.println("🧠 Yaatal School - Dev Mode ON");
+      System.out.println("🧠 Demo app - Dev Mode ON");
       System.out.println("🔧 Active profile : " + String.join(", ", env.getActiveProfiles()));
       System.out.println("🌐 Server port    : " + env.getProperty("server.port"));
       System.out.println("🗃️  DB URL        : " + env.getProperty("spring.datasource.url"));

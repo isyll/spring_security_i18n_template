@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AppMetadata {
 
-  public final String APP_NAME = "Yaatal School";
+  public final String APP_NAME = "Spring demo";
   public final String AUTHOR = "Ibrahima Sylla";
   public final String APP_VERSION = "1.0.0";
   public final Locale DEFAULT_LOCALE = Locale.FRENCH;

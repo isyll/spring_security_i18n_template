@@ -1,6 +1,6 @@
 spring:
   application:
-    name: yaatal-school
+    name: demo
     version: 1.0.0
 
   mail:
@@ -70,5 +70,5 @@ springdoc:
 logging:
   level:
     org.springframework: ERROR
-    com.yaatal: INFO
+    com.example.demo: INFO
     io.swagger.v3: WARN

@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PasswordResetService extends BaseService {
 
   private final UserRepository userRepository;
-  private final UserByEmailService userByEmailService;
   private final Translator translator;
   private final EmailHelper emailHelper;
   private final RedisTemplate<String, String> redisTemplate;

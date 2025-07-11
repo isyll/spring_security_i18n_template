@@ -15,13 +15,13 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
   private static final String SWAGGER_API_VERSION = "1.0";
-  private static final String title = "Yaatal School application";
-  private static final String description = "REST API for Yaatal School application.";
-  private static final String termsOfServiceUrl = "https://www.yaatal.com/terms-of-services";
-  private static final String contactEmail = "admin@yaatal.com";
+  private static final String title = "Demo application";
+  private static final String description = "REST API for a demo application.";
+  private static final String termsOfServiceUrl = "https://www.example.com/terms-of-services";
+  private static final String contactEmail = "admin@example.com";
   private static final String license = "Proprietary";
-  private static final String licenseUrl = "https://www.yaatal.com/license";
-  private static final String externalDocs = "https://www.yaatal.com/docs";
+  private static final String licenseUrl = "https://www.example.com/license";
+  private static final String externalDocs = "https://www.example.com/docs";
   private static final License licence = new License().name(license).url(licenseUrl);
   private static final Contact contact = new Contact().name(contactEmail);
   private static final Info info =

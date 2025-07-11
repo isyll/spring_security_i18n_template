@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.context.SchoolContextHolder;
 import com.example.demo.exceptions.UniqueConstraintViolationException;
-import com.example.demo.model.School;
 import com.example.demo.model.UsedEmail;
 import com.example.demo.model.UsedPhoneNumber;
 import com.example.demo.model.User;
@@ -23,17 +21,11 @@ abstract class BaseService {
 
   @Autowired private UsedPhoneRepository usedPhoneRepository;
 
-  @Autowired private SchoolContextHolder schoolContextHolder;
-
   protected User currentUser() {
     if (SecurityUtils.isUnauthenticated()) {
       throw new RuntimeException("No authenticated user found");
     }
     return SecurityUtils.getCurrentUser();
-  }
-
-  protected School currentSchool() {
-    return schoolContextHolder.getSchool();
   }
 
   protected void persistUsedEmail(String email) {
